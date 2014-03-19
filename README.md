@@ -1,0 +1,1 @@
+Global Energy Consumption lezzz go!
