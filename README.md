@@ -1,1 +1,1 @@
-Global Energy Consumption lezzz go!
+Global Energy Consumption lets go!
