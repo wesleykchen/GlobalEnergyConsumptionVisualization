@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<style type="text/css">
+    svg{
+        background: #eeeeee;
+        z-index: -5;
+    }
+
+    .country{
+        fill: #dffaff;
+        stroke: steelblue;
+    }
+
+    text{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        font-weight: lighter;
+    }
+
+    .axis text {
+        font: 10px sans-serif;
+    }
+
+    .axis line,
+    .axis path {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+
+    .station{
+        fill: blue;
+        opacity: 0.7;
+        z-index: -1;
+    }
+
+    .stationNoData{
+        fill: grey;
+        opacity: 0.7;
+        z-index: -2;
+    }
+
+    .station.active{
+        fill: orange;
+        opacity: 1;
+        z-index: 1;
+
+    }
+
+    .hourLine{
+        fill:steelblue;
+        stroke:steelblue;
+    }
+
+    .tooltip {
+        background: rgba(0, 0, 0, 0.75);
+        font-weight: bold;
+        padding: 15px;
+        line-height: 1;
+    }
+
+    #boxheader {
+        color: red;
+        text-align: left;
+        font-size: 120%;
+    }
+
+    #boxfont {
+        color: white;
+        text-align: center;
+        font-size: 95%;
+    }
+
+</style>
+
+<table>
+    <tr><td><div id="vis"></div></td><td><div id="detailVis"></div></td></tr>
+</table>
+
+<script src="globalenergy.js"></script>
+
+</body>
+</html>
