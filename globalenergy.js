@@ -1,292 +1,155 @@
-var margin = {
-    top: 50,
-    right: 50,
-    bottom: 50,
-    left: 50
-};
+d3.select(window).on("resize", throttle);
 
-var width = 1060 - margin.left - margin.right;
-var height = 800 - margin.bottom - margin.top;
+// setup zoom - how much zoom to allow
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", move);
 
-// constant for tooltip display
+// scale width to browser window
+var width = document.getElementById('container').offsetWidth;
+var height = width / 2;
 
-var tooltipHeight = -5;
+// variables needed in various functions
+var topo, projection, path, svg, g;
 
-// create flag variable for zooming
-var centered;
+// setup graticule
+var graticule = d3.geo.graticule();
 
-var bbVis = {
-    x: 100,
-    y: 10,
-    w: width - 100,
-    h: 300
-};
+// tooltip 
+var tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
 
-var detailVis = d3.select("#detailVis").append("svg").attr({
-    width: 450,
-    height:250
-})
+// create basic mercator map
+setup(width,height);
 
-// bbDetail constants
+function setup(width,height){
+  projection = d3.geo.mercator()
+    .translate([(width/2), (height/2)])
+    .scale( width / 2 / Math.PI);
 
-var bbDetail = {
-    w: 440,
-    h: 240,
-    x: 85,
-    y: 40
-} 
+  path = d3.geo.path().projection(projection);
 
-var canvas = d3.select("#vis").append("svg").attr({
-    width: width + margin.left + margin.right,
-    height: height + margin.top + margin.bottom
-    })
+  svg = d3.select("#container").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(zoom)
+      .on("click", click)
+      .append("g");
 
-var svg = canvas.append("g").attr({
-        transform: "translate(" + margin.left + "," + margin.top + ")"
-    })
-
-
-// set albers USA projection
-var projection = d3.geo.albersUsa().translate([width / 2, height / 2]).precision(.1);
-var path = d3.geo.path().projection(projection);
-
-// get data for tooltip info
-var tooltip = d3.tip()
-    .attr('class', 'tooltip')
-    .offset([tooltipHeight, 0])
-    .html(function(d) {
-        // only tooltip data for existing data
-        if (completeDataSet[d.USAF] != undefined ) {
-            return "<div id = \"boxheader\"> Station: </div><div id = \"boxfont\">" + d.STATION + "</div><div id = \"boxheader\"> Sum: </div><div id = \"boxfont\">" + completeDataSet[d.USAF].sum + "</div>";
-        }
-        // else generic
-        else {
-            return "<div id = \"boxfont\"> Data Unavailable </div>";
-        }
-    });
-
-svg.call(tooltip);
-
-// graph variables
-var xAxis, xScale, yAxis, yScale;
-
-function loadStations() {
-    d3.csv("../data/NSRDB_StationsMeta.csv", function(error,data){
-
-        // manual processing to take an average - I come from a C background... d3/javascript too fancy
-        var dataMean = 0;
-        var counter = 0;
-        for (var element in completeDataSet) {
-            if (completeDataSet[element] != 0 ) {
-                dataMean = counter / (counter + 1) * dataMean + completeDataSet[element].sum / (counter + 1);
-                ++counter;
-            }
-        }
-
-        // add stations as circles
-        svg.selectAll("circle")
-        .data(data).enter()
-            .append("circle")
-            .attr("cx", function(d) {
-                return projection([d.NSRDB_LON, d.NSRDB_LAT])[0];
-            })
-            .attr("cy", function(d) {
-                return projection([d.NSRDB_LON, d.NSRDB_LAT])[1];
-             })
-            // circle radius proportional to the mean (mean set at radius 2, double mean points get radius 4, etc)
-            .attr("r", function(d){
-                if(completeDataSet[d.USAF] != undefined && completeDataSet[d.USAF] != 0) {
-                    return 2 * completeDataSet[d.USAF]["sum"] / dataMean;
-                }
-                // default size for stations with no data is set to 2
-                else {
-                    return 2;
-                }
-            })
-            // show the stations with and without data in different classes
-            .attr("class", function(d){
-                if(completeDataSet[d.USAF] != undefined && completeDataSet[d.USAF] != 0) {
-                    return "station"; 
-                }
-                else {
-                    return "stationNoData";
-                }
-            })
-            // call multiple event handlers packaged as a function
-            .call(addEvents)
-    });
-    createDetailVis();
-}
-
-
-// function to organize events that are added to both show tooltip and highlight circle
-function addEvents(selection) {
-    selection.on("mouseover.color", function() {
-        d3.select(this).classed("active", true)
-    })
-    selection.on("mouseover.tip", tooltip.show)
-    selection.on("mouseout.color",  function() {
-        d3.select(this).classed("active", false)
-    })
-    selection.on("mouseout.tip",  tooltip.hide)
-    selection.on('click', updateDetailVis);
-}
-
-// functino to load the aggergated data
-function loadStats() {
-
-    d3.json("../data/reducedMonthStationHour2003_2004.json", function(error,data){
-
-        // save data to variable name for loadStations to call
-        completeDataSet = data;
-		
-        // call loadStations data
-        loadStations();
-    })
+  g = svg.append("g");
 
 }
 
-// from the click-to-zoom example
-var g;
+// load country data
+d3.json("data/world_data.json", function(error, world) {
 
-// create map
+  var countries = topojson.feature(world, world.objects.countries).features;
 
-d3.json("../data/us-named.json", function(error, data) {
+  topo = countries;
+  draw(topo);
 
-    var usMap = topojson.feature(data,data.objects.states).features
-
-    g = svg.selectAll(".country")
-    .data(usMap).enter()
-      .append("path")
-      .attr("d", path)
-      .attr("class", "country")
-      .on("click", zoomToBB);;
-
-    loadStats();
 });
 
-var createDetailVis = function(){
+// draw function
+function draw(topo) {
 
-  // cool and useful formatting method courtesy of http://bl.ocks.org/mbostock/3048166
+  // path for graticule
+  svg.append("path")
+     .datum(graticule)
+     .attr("class", "graticule")
+     .attr("d", path);
 
-  // formatting for ticks
-  var formatTime = d3.time.format("%M:%H"),
-    // set epoch to arbitrary 2012 as long as we can get time
-    formatMinutes = function(d) { return formatTime(new Date(2012, 0, 1, 0, d)); };
+  // create equator 
+  g.append("path")
+   .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
+   .attr("class", "equator")
+   .attr("d", path);
 
-  xScale = d3.scale.linear().domain([0, 23])
-                            .range([bbDetail.x, bbDetail.w]);
-  yScale = d3.scale.linear().domain([0,15000000])
-                            .range([bbDetail.h, bbDetail.y]);
 
-  yAxisScale = d3.scale.linear().domain([0,15000000])
-                            .range([bbDetail.y, bbDetail.h]);
+  var country = g.selectAll(".country").data(topo);
 
-  // create axes with these scales - on top and left
-  xAxis = d3.svg.axis()
-              .scale(xScale)
-              .orient("top")
-              .tickFormat(formatMinutes);
-  yAxis = d3.svg.axis()
-              .scale(yAxisScale)
-              .orient("left");
+  // outline countries and style as appropriate
+  country.enter().insert("path")
+      .attr("class", "country")
+      .attr("d", path)
+      .attr("id", function(d,i) { return d.id; })
+      .attr("title", function(d,i) { return d.properties.name; })
+      .style("fill", "white")
+      .style("stroke", "black")
+      .style("stroke-width", 0.2);
+      //.style("fill", function(d, i) { return d.properties.color; });
 
-  // add x-axis to overview
-  detailVis.append("g")
-    .call(xAxis)
-    .attr("class", "x axis")
-    // shift to proper location
-    .attr("transform", "translate(" + 0 + "," + bbDetail.y + ")")
-    // modify axis label
-    .append("text")
-      .text("Hour of the Day")
-      .attr("dx", "27em")
-      .attr("dy", "-3em")
-      .style("text-anchor", "middle");
+  // offsets for tooltips
+  var offsetL = document.getElementById('container').offsetLeft+20;
+  var offsetT = document.getElementById('container').offsetTop+10;
 
-  // add y-axis to overview
-  detailVis.append("g")
-    .call(yAxis)
-    .attr("class", "y axis")
-    // shift to proper location
-    .attr("transform", "translate(" + bbDetail.x + "," + 0 + ")")
-    // modify axis label including rotation
-    .append("text")
-      .text("Sum of Lux Readings")
-      .attr("dx", "-7em")
-      .attr("dy", "-7em")
-      .attr("transform", "rotate(-90)")
-      .style("text-anchor" , "end")
+  // handle mousemove events
+  country
+    .on("mousemove", function(d,i) {
 
-  // add title to looo nice
-  detailVis.append("text")   
-    .attr("x", bbDetail.w / 2 + bbDetail.x / 1.5)
-    .attr("y", bbDetail.h)
-    .attr("text-anchor", "middle")  
-    .style("font-size", "14px") 
-    .style("text-decoration", "underline")  
-    .text("Aggregate Hourly Data");
+      var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
 
-  // time formater for data
-  var formatTime = d3.time.format("%H:%M:%S")
+      tooltip.classed("hidden", false)
+             .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+             .html(d.properties.name);
 
-  // default settings on bargraph
-  detailVis.selectAll(".bar")
-    .data(d3.entries(completeDataSet[690150].hourly))
-    .enter().append("rect")
-      .attr("class", "hourLine")
-      .attr("x", function(d) { 
-        return xScale(formatTime.parse(d.key).getHours());
       })
-      .attr("y", bbDetail.y)
-      .attr("height", function(d) {
-        return bbDetail.h - yScale(d.value);
-      })
-      .attr("width", 8);
+      .on("mouseout",  function(d,i) {
+        tooltip.classed("hidden", true);
+      }); 
+
+
+  // Here to add more labels/overlays like station points
 }
 
-// function to update vis graph on click, adjusting the already made rectangles
-var updateDetailVis = function(data, name) {
 
-  // only if the clicked station has data
-  if(data.USAF != undefined) {
-    // time formater for data
-    var formatTime = d3.time.format("%H:%M:%S")
-    // update bar detail graph
-    detailVis.selectAll("rect")
-      .data(d3.entries(completeDataSet[data.USAF].hourly))
-      .transition()
-        .duration(1000)
-        .attr("y", bbDetail.y)
-        .attr("height", function(d) {
-          return bbDetail.h - yScale(d.value);
-        })
-  }
+// update visual
+function redraw() {
+  width = document.getElementById('container').offsetWidth;
+  height = width / 2;
+  d3.select('svg').remove();
+  setup(width,height);
+  draw(topo);
 }
 
-// ZOOMING -- from the click to zoom example with centroids
-function zoomToBB(d) {
-  var x, y, k;
+// pan function
+function move() {
 
-  if (d && centered !== d) {
-    var centroid = path.centroid(d);
-    x = centroid[0]
-    y = centroid[1] - margin.top;
-    k = 4;
-    centered = d;
-  }
-  // zoom out scaling with bbVis parameters
-  else {
-    x = bbVis.w / 2;
-    y = bbVis.h / 2;
-    k = 1;
-    centered = null;
-  }
+  // zoom in 400% per tick
+  var t = d3.event.translate;
+  var s = d3.event.scale; 
+  zscale = s;
+  var h = height/4;
 
-  // gemoetric zooming with svg instead of g.transition
-  svg.transition()
-    .duration(750)
-    .attr("transform", "translate(" + bbVis.w / 2 + "," + bbVis.h / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-    .style("stroke-width", 1.5 / k + "px");
+  // computer boarders for the zoomed pan
+  t[0] = Math.min(
+    (width/height)  * (s - 1), 
+    Math.max( width * (1 - s), t[0] )
+  );
+
+  t[1] = Math.min(
+    h * (s - 1) + h * s, 
+    Math.max(height  * (1 - s) - h * s, t[1])
+  );
+
+  zoom.translate(t);
+  g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+
+  //adjust the country hover stroke width based on zoom level
+  d3.selectAll(".country").style("stroke-width", 1.5 / s);
+
 }
 
+// set zoom speed
+var throttleTimer;
+function throttle() {
+  window.clearTimeout(throttleTimer);
+    throttleTimer = window.setTimeout(function() {
+      redraw();
+    }, 200);
+}
+
+// on click, log the country data
+function click() {
+  var latlon = projection.invert(d3.mouse(this));
+  console.log(latlon);
+}
