@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+  
+<link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+
 <title>D3 World Map Template | TechSlides</title>
 <style>
 .country:hover{
@@ -41,6 +44,46 @@ div.tooltip {
   stroke: #ccc;
   stroke-width: 1px;
 }
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+body {
+  overflow-x:scroll;
+}
+
+text {
+  font: 12px sans-serif;
+}
+
+#chart1 svg {
+  height: 200px;
+  margin: 10px;
+  min-width: 100px;
+  min-height: 100px;
+/*
+  Minimum height and width is a good idea to prevent negative SVG dimensions...
+  For example width should be =< margin.left + margin.right + 1,
+  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
+*/
+}
+
 
 </style>
 </head>
@@ -52,13 +95,16 @@ div.tooltip {
 
 
   <div id="container"></div>
+  <div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg> </svg>
+  </div>
   <div id="table"></div>
 
   <script src="libs/d3.v3.min.js"></script>
   <script src="libs/topojson.v1.min.js"></script>
   <script src="globalenergy.js"></script>
-  <script type="libs/nv.d3.js"></script>
-  <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+  <script src="libs/nv.d3.js"></script>
+  <script src="energygraph.js"></script>
 
 </body>
 </html>
