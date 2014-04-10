@@ -39,8 +39,12 @@ function setup(width,height){
 
 }
 
+// global data for all files
+var energydata;
+
 // load country data
-d3.json("data/globalenergyuse-cleaned.json", function(error, energydata) {
+d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
+  energydata = data;
   loadMapData();
 
 });
