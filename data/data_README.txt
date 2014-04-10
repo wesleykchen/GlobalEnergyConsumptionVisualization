@@ -2,15 +2,11 @@
 	code:
 	name:
 	countries:{
-		0:{
-			cname:
-			ccode:
-			yearly:{
-				0:{
-					year:
-					value:
-				}
-			}
-		}
+		NAMEOFCOUNTRY:
+			1971: VALUE
+			1972: VALUE
 	}
 }
+
+example access of first code which is EGEGYPRODKTOE for United States 1995
+data[0].countries["United States"]["1995"]

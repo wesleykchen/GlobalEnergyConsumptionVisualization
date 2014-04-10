@@ -40,14 +40,23 @@ function setup(width,height){
 }
 
 // load country data
-d3.json("data/world_data.json", function(error, world) {
+d3.json("data/globalenergyuse-cleaned.json", function(error, energydata) {
 
-  var countries = topojson.feature(world, world.objects.countries).features;
-
-  topo = countries;
-  draw(topo);
+  console.log(energydata);
+  loadMapData();
 
 });
+
+// load map data
+function loadMapData() {
+  d3.json("data/world_data.json", function(error, world) {
+
+    var countries = topojson.feature(world, world.objects.countries).features;
+
+    topo = countries;
+    draw(topo);
+  });
+}
 
 // draw function
 function draw(topo) {
@@ -135,7 +144,7 @@ function move() {
   g.attr("transform", "translate(" + t + ")scale(" + s + ")");
 
   //adjust the country hover stroke width based on zoom level
-  d3.selectAll(".country").style("stroke-width", 1.5 / s);
+  d3.selectAll(".country").style("stroke-width", 0.2 / s);
 
 }
 
