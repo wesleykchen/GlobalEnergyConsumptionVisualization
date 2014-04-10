@@ -41,8 +41,6 @@ function setup(width,height){
 
 // load country data
 d3.json("data/globalenergyuse-cleaned.json", function(error, energydata) {
-
-  console.log(energydata);
   loadMapData();
 
 });
