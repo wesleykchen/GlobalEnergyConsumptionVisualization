@@ -185,10 +185,10 @@ function throttle() {
 }
 
 // tutorial 
-jQuery(document).ready(function($) {
-    bootstro.start();
-    drawBarChart('#chart svg');
-  })
+// jQuery(document).ready(function($) {
+//     bootstro.start();
+//     CreateGraph('#chart svg');
+//   })
 // // on click, log the country data
 // function click() {
 
