@@ -2,12 +2,12 @@ function CreateGraph() {
 
 var template = [
   {
-    "key" : "United States Energy Production" ,
+    "key" : "United Kingdom Energy Production" ,
     "bar": true,
     "values" : []
   },
   {
-    "key" : "United Kingdom Energy Production" ,
+    "key" : "United States Energy Production" ,
     "values" : []
   }
 

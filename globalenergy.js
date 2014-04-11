@@ -12,8 +12,8 @@ var height = width / 2;
 // variables needed in various functions
 var topo, projection, path, svg, g;
 
-// setup graticule
-var graticule = d3.geo.graticule();
+// setup graticule if we want
+// var graticule = d3.geo.graticule();
 
 // tooltip 
 var tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
@@ -61,11 +61,11 @@ function loadMapData() {
 // draw function
 function draw(topo) {
 
-  // path for graticule
-  svg.append("path")
-     .datum(graticule)
-     .attr("class", "graticule")
-     .attr("d", path);
+  // path for graticule if we wanted it
+  // svg.append("path")
+  //    .datum(graticule)
+  //    .attr("class", "graticule")
+  //    .attr("d", path);
 
   // create equator 
   g.append("path")
@@ -82,10 +82,37 @@ function draw(topo) {
       .attr("d", path)
       .attr("id", function(d,i) { return d.id; })
       .attr("title", function(d,i) { return d.properties.name; })
-      .style("fill", "white")
       .style("stroke", "black")
-      .style("stroke-width", 0.2);
-      //.style("fill", function(d, i) { return d.properties.color; });
+      .style("stroke-width", 0.2)
+      //.style("fill", "white")
+      .style("fill", function(d, i)
+      {
+        // temporary basic choropleth scale - energy production
+        index = 25;
+        var countryName = d.properties.name;
+        var year = "1985";
+
+        // search for data
+        if (energydata[index].countries[countryName] != undefined)
+        {
+          var countryData = energydata[index].countries[countryName][year];
+          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+        }
+        if(countryData != undefined)
+        {
+          // set named function for color gradient
+          var choropleth = d3.scale.linear()
+            .domain([0, max])    
+            .interpolate(d3.interpolateRgb)
+            .range(["white", "red"]);
+          return choropleth(countryData);
+        }
+        else
+        {
+          return "#CACACA";
+        }
+      });
 
   // offsets for tooltips
   var offsetL = document.getElementById('container').offsetLeft+20;
