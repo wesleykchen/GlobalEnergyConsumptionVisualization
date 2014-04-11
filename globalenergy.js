@@ -1,5 +1,5 @@
 d3.select(window).on("resize", throttle);
-
+var showing = false;
 // setup zoom - how much zoom to allow
 var zoom = d3.behavior.zoom()
     .scaleExtent([1, 10])
@@ -131,7 +131,7 @@ function draw(topo) {
         tooltip.classed("hidden", true);
       })
       .on("click", function(d,i) {
-        CreateGraph(d.properties.name, "series 2");
+        CreateGraph(d.properties.name, d.properties.name);
       });
 
   // Here to add more labels/overlays like station points
