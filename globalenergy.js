@@ -32,7 +32,6 @@ function setup(width,height){
       .attr("width", width)
       .attr("height", height)
       .call(zoom)
-      .on("click", click)
       .append("g");
 
   g = svg.append("g");
@@ -43,7 +42,6 @@ function setup(width,height){
 d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
   energydata = data;
   loadMapData();
-  CreateGraph();
 
 });
 
@@ -131,8 +129,10 @@ function draw(topo) {
       })
       .on("mouseout",  function(d,i) {
         tooltip.classed("hidden", true);
-      }); 
-
+      })
+      .on("click", function(d,i) {
+        CreateGraph(d.properties.name, "series 2");
+      });
 
   // Here to add more labels/overlays like station points
 }
@@ -184,8 +184,10 @@ function throttle() {
     }, 200);
 }
 
-// on click, log the country data
-function click() {
-  var latlon = projection.invert(d3.mouse(this));
-  console.log(latlon);
-}
+// // on click, log the country data
+// function click() {
+
+//   CreateGraph("hi", "hit");
+//   //var latlon = projection.invert(d3.mouse(this));
+//   //console.log(latlon);
+// }

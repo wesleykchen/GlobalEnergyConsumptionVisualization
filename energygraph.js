@@ -1,13 +1,14 @@
-function CreateGraph() {
-
+function CreateGraph(name1, name2) {
+// temp replace series 2
+name2 = "United States";
 var template = [
   {
-    "key" : "United Kingdom Energy Production" ,
+    "key" : name1 + " Energy Production" ,
     "bar": true,
     "values" : []
   },
   {
-    "key" : "United States Energy Production" ,
+    "key" : name2 + " Energy Production" ,
     "values" : []
   }
 
@@ -16,8 +17,8 @@ var template = [
   return series;
 });
 
-var firstserieskeys = d3.keys(energydata[0].countries["United Kingdom"]);
-var firstseriesvalues = d3.values(energydata[0].countries["United Kingdom"])
+var firstserieskeys = d3.keys(energydata[0].countries[name1]);
+var firstseriesvalues = d3.values(energydata[0].countries[name1])
 template[0].values = [];
 for (var i = 0; i < firstserieskeys.length; ++i)
 {
@@ -26,8 +27,8 @@ for (var i = 0; i < firstserieskeys.length; ++i)
    template[0].values[i]["y"] = firstseriesvalues[i];
 }
 
-var secondserieskeys = d3.keys(energydata[0].countries["United States"]);
-var secondseriesvalues = d3.values(energydata[0].countries["United States"])
+var secondserieskeys = d3.keys(energydata[0].countries[name2]);
+var secondseriesvalues = d3.values(energydata[0].countries[name2])
 template[1].values = [];
 for (var i = 0; i < secondserieskeys.length; ++i)
 {
