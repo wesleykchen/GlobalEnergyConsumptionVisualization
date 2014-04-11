@@ -184,6 +184,11 @@ function throttle() {
     }, 200);
 }
 
+// tutorial 
+jQuery(document).ready(function($) {
+    bootstro.start();
+    drawBarChart('#chart svg');
+  })
 // // on click, log the country data
 // function click() {
 
