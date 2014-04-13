@@ -15,6 +15,22 @@ var topo, projection, path, svg, g;
 // setup graticule if we want
 // var graticule = d3.geo.graticule();
 
+//make slider
+  $(function() {
+    $( "#slider" ).slider({
+      value:1970,
+      min: 1970,
+      max: 2007,
+      step: 1,
+      slide: function( event, ui ) {
+        $( "#year" ).val( ui.value );
+      }
+      
+    });
+
+
+  });
+
 // tooltip 
 var tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
 

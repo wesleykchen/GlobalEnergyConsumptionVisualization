@@ -3,6 +3,7 @@
   
 <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/bootstro.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <title>CS171 Final Project: WC-IS-WC</title>
 <style>
@@ -21,6 +22,18 @@
   height:100%;
   overflow:hidden;
   background: #BFEFFF;
+}
+
+#year {
+  
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+#slider {
+  
+  margin-left: 10%;
+  margin-right: 10%;
 }
 .hidden { 
   display: none; 
@@ -96,6 +109,8 @@ text {
 
 
   <div id="container"></div>
+  <input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
+  <div id="slider"></div>
   <div id="chart1" class='with-3d-shadow with-transitions'>
     <svg> </svg>
   </div>
@@ -105,6 +120,7 @@ text {
   <script src="libs/topojson.v1.min.js"></script>
   <script src="libs/nv.d3.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script src="libs/bootstrap.js"></script>
   <script src="libs/bootstro.js"></script>
   <script type = "text/javascript">
