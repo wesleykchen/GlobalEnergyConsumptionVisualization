@@ -18,8 +18,8 @@ var topo, projection, path, svg, g;
 //make slider
   $(function() {
     $( "#slider" ).slider({
-      value:1970,
-      min: 1970,
+      value:1971,
+      min: 1971,
       max: 2007,
       step: 1,
       slide: function( event, ui ) {
@@ -104,6 +104,8 @@ function draw(topo) {
         // temporary basic choropleth scale - energy production
         index = 25;
         var countryName = d.properties.name;
+
+        // TODO here is where we initially set the color, we'll also need a color update which can be done with a selectA;;
         var year = "1985";
 
         // search for data
