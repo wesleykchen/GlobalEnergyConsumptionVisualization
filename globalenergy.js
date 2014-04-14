@@ -24,6 +24,42 @@ var topo, projection, path, svg, g;
       step: 1,
       slide: function( event, ui ) {
         $( "#year" ).val( ui.value );
+        var newValue = ui.value;
+
+        console.log(countriesSelection)
+        countriesSelection
+        .style("fill", function(d, i)
+      {
+        // temporary basic choropleth scale - energy production
+        index = 25;
+        var countryName = d.properties.name;
+
+        // TODO here is where we initially set the color, we'll also need a color update which can be done with a selectA;;
+        var year = ui.value;
+
+        console.log(energydata)
+        // search for data
+        if (energydata[index].countries[countryName] != undefined)
+        {
+          var countryData = energydata[index].countries[countryName][year];
+          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+        }
+        if(countryData != undefined)
+        {
+          // set named function for color gradient
+          var choropleth = d3.scale.linear()
+            .domain([0, max])    
+            .interpolate(d3.interpolateRgb)
+            .range(["green", "red"]);
+          return choropleth(countryData);
+        }
+        else
+        {
+          return "#CACACA";
+        }
+      });
+        
       }
       
     });
@@ -71,7 +107,7 @@ function loadMapData() {
     draw(topo);
   });
 }
-
+var countriesSelection;
 // draw function
 function draw(topo) {
 
@@ -88,10 +124,10 @@ function draw(topo) {
    .attr("d", path);
 
 
-  var country = g.selectAll(".country").data(topo);
+  country = g.selectAll(".country").data(topo);
 
   // outline countries and style as appropriate
-  country.enter().insert("path")
+  countriesSelection = country.enter().insert("path")
       .attr("class", "country")
       .attr("d", path)
       .attr("id", function(d,i) { return d.id; })
@@ -121,7 +157,7 @@ function draw(topo) {
           var choropleth = d3.scale.linear()
             .domain([0, max])    
             .interpolate(d3.interpolateRgb)
-            .range(["white", "red"]);
+            .range(["green", "red"]);
           return choropleth(countryData);
         }
         else
