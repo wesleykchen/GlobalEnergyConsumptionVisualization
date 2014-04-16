@@ -22,6 +22,7 @@ var topo, projection, path, svg, g;
       min: 1971,
       max: 2007,
       step: 1,
+      animate: true,
       slide: function( event, ui ) {
         $( "#year" ).val( ui.value );
         var newValue = ui.value;
@@ -238,11 +239,11 @@ function throttle() {
     }, 200);
 }
 
-// tutorial 
-// jQuery(document).ready(function($) {
-//     bootstro.start();
-//     CreateGraph('#chart svg');
-//   })
+//tutorial 
+jQuery(document).ready(function($) {
+    CreateGraph('#chart1 svg');
+    bootstro.start();
+  })
 // // on click, log the country data
 // function click() {
 

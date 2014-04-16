@@ -87,10 +87,13 @@ text {
 }
 
 #chart1 svg {
-  height: 200px;
+  height: 340px;
   margin: 10px;
-  min-width: 100px;
-  min-height: 100px;
+  width:915;
+  min-width: 300px;
+  min-height: 200px;
+  display:block;
+  float:left;
 /*
   Minimum height and width is a good idea to prevent negative SVG dimensions...
   For example width should be =< margin.left + margin.right + 1,
@@ -108,11 +111,13 @@ text {
   <p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>
 
 
-  <div id="container"></div>
+  <div id="container">
+    <div class="bootstro"></div>
+  </div>
   <input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
   <div id="slider"></div>
   <div id="chart1" class='with-3d-shadow with-transitions'>
-    <svg> </svg>
+    <svg class="bootstro" data-bootstro-content="Test"> </svg>
   </div>
   <div id="table"></div>
 
