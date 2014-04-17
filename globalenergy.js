@@ -15,7 +15,7 @@ var topo, projection, path, svg, g;
 // setup graticule if we want
 // var graticule = d3.geo.graticule();
 
-//make slider
+// make slider
   $(function() {
     $( "#slider" ).slider({
       value:1971,
@@ -27,7 +27,8 @@ var topo, projection, path, svg, g;
         $( "#year" ).val( ui.value );
         var newValue = ui.value;
 
-        console.log(countriesSelection)
+        // console.log(countriesSelection)
+
         countriesSelection
         .style("fill", function(d, i)
       {
@@ -35,24 +36,25 @@ var topo, projection, path, svg, g;
         index = 25;
         var countryName = d.properties.name;
 
-        // TODO here is where we initially set the color, we'll also need a color update which can be done with a selectA;;
+        // get the value from the slider
         var year = ui.value;
 
-        console.log(energydata)
+        // console.log(energydata)
         // search for data
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
           //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
           var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
         }
         if(countryData != undefined)
         {
           // set named function for color gradient
           var choropleth = d3.scale.linear()
-            .domain([0, max])    
+            .domain([0, median, max])    
             .interpolate(d3.interpolateRgb)
-            .range(["green", "red"]);
+            .range(["green", "white", "red"]);
           return choropleth(countryData);
         }
         else
