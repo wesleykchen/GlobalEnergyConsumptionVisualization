@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Minimal Cartogram</title>
-      <script src="libs/d3.v3.min.js"></script>
+    <script src="libs/d3.v3.min.js"></script>
     <script src="libs/topojson.js"></script>
     <script src="cartogram.js"></script>
     <style type="text/css">
@@ -40,15 +40,12 @@
             {name: "Population Estimate", id: "popest", key: "POPESTIMATE%d"},
             {name: "Population Change", id: "popchange", key: "NPOPCHG_%d", format: "+,"},
           ],
-          years = [2010, 2011],
+          year = 2010;
           fieldsById = d3.nest()
             .key(function(d) { return d.id; })
             .rollup(function(d) { return d[0]; })
             .map(fields),
-          field = fields[0],
-          year = years[0];
-
-      var body = d3.select("body")
+          field = fields[0];
 
       var fieldSelect = d3.select("#field")
         .on("change", function(e) {
@@ -63,24 +60,7 @@
           .attr("value", function(d) { return d.id; })
           .text(function(d) { return d.name; });
 
-      var yearSelect = d3.select("#year")
-        .on("change", function(e) {
-          year = years[this.selectedIndex];
-          location.hash = "#" + [field.id, year].join("/");
-        });
-
-      yearSelect.selectAll("option")
-        .data(years)
-        .enter()
-        .append("option")
-          .attr("value", function(y) { return y; })
-          .text(function(y) { return y; })
-
       var map = d3.select("#map"),
-          zoom = d3.behavior.zoom()
-            .translate([-38, 32])
-            .scale(.94)
-            .scaleExtent([0.5, 10.0])
           layer = map.append("g")
             .attr("id", "layer"),
           states = layer.append("g")
@@ -103,6 +83,8 @@
      
       // on event fire, this function is called
       window.onhashchange = function() {
+        // this is the way they update the values using an encoded "has"
+        // like #Texas:2010 to represent Texas at 2010, kind of fancy
         parseHash();
       };
 
@@ -184,28 +166,17 @@
           .attr("d", carto.path);
       }
 
-      var deferredUpdate = (function() {
-        var timeout;
-        return function() {
-          var args = arguments;
-          clearTimeout(timeout);
-          return timeout = setTimeout(function() {
-            update.apply(null, arguments);
-          }, 10);
-        };
-      })();
-
       function parseHash() {
         var parts = location.hash.substr(1).split("/"),
             desiredFieldId = parts[0],
             desiredYear = +parts[1];
 
         field = fieldsById[desiredFieldId] || fields[0];
-        year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
-
+        // year is defaulting to 2010 values
         fieldSelect.property("selectedIndex", fields.indexOf(field));
 
-        deferredUpdate();
+        // if there is a race condition, may need to stall the update a bit to calculate, see original code, but for now this should work
+        update();
         location.replace("#" + [field.id, year].join("/"));
 
       }
