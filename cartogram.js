@@ -155,7 +155,7 @@
     }
 
     var iterations = 8,
-        projection = d3.geo.mercator(),
+        projection = d3.geo.albers(),
         properties = function(id) {
           return {};
         },

@@ -65,10 +65,13 @@
           carto = d3.cartogram()
             .projection(proj)
             .properties(function(d) {
+              //console.log(dataById);
               return dataById[d.id];
             })
-            
             .value(function(d) {
+              console.log("yo");
+              console.log(d)
+              console.log(+d.properties[field])
               return +d.properties[field];
             });
      

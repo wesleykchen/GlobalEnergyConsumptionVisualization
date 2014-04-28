@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minimal Cartogram</title>
+    <script src="libs/d3.v3.min.js"></script>
+    <script src="libs/topojson.js"></script>
+    <script src="cartogram.js"></script>
+    <style type="text/css">
+
+      path.state {
+        stroke: #666;
+        stroke-width: .5;
+      }
+
+      path.state:hover {
+        stroke: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Cartograms with d3 &amp; TopoJSON</h1>
+      <form>
+        <p>
+          <label>Scale by <select id="field"></select></label>
+          <label>in <select id="year"></select></label>
+        </p>
+      </form>
+      <div id="map-container">
+        <svg id="map"></svg>
+      </div>
+    </div>
+    <script>
+      // for scope
+      var energydata;
+
+      var map = d3.select("#map"),
+          layer = map.append("g")
+            .attr("id", "layer"),
+          states = layer.append("g")
+            .attr("id", "states")
+            .selectAll("path");
+
+      var proj = d3.geo.mercator(),
+          topology,
+          geometries,
+          carto;
+     
+      // on event fire, this function is called
+      window.onhashchange = function() {
+        update();
+      };
+
+      d3.json("data/world_data.json", function(topo) {
+        topology = topo;
+        geometries = topology.objects.countries.geometries;
+
+        carto = d3.cartogram()
+            .projection(proj)
+            .properties(function(d) {
+              return geometries[d.id].properties;
+            })
+
+        // load country data
+        d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
+          energydata = data;
+          init();
+        });
+      });
+
+      function init() {
+        var features = carto.features(topology, geometries),
+            path = d3.geo.path()
+              .projection(proj);
+
+        states = states.data(features)
+          .enter()
+          .append("path")
+            .attr("class", "state")
+            .attr("id", function(d) {
+              return d.properties.name;
+            })
+            .attr("d", path);
+
+        states.append("title");
+
+        update();
+      }
+
+
+      function update() {
+        // hard code year for now
+        var index = 23;
+        var year = 1985;
+        var min = 0;
+        var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+
+        // normalize the scale to positive numbers
+        var scale = d3.scale.linear()
+          .domain([min,max])
+          .range([1, max]);
+
+        // tell the cartogram to use the scaled values
+        //carto.value(function(d) {
+          //return 0;
+          //return scale(value(d));
+        //});
+
+        // generate the new features, pre-projected
+        //var features = carto(topology, geometries).features;
+
+        // update tooltips
+        /*
+        states.data(features)
+          .select("title")
+            .text(function(d) {
+              return [d.properties.NAME, fmt(value(d))].join(": ");
+            });
+        */
+        
+        states.transition()
+          .duration(750)
+          //.ease("linear")
+          //.attr("d", carto.path);
+      }
+    </script>
+  </body>
+</html>
