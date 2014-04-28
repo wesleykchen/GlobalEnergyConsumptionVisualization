@@ -32,7 +32,7 @@
     </div>
     <script>
       // for scope
-      var energydata;
+      var energydata, features;
 
       var map = d3.select("#map"),
           layer = map.append("g")
@@ -69,7 +69,7 @@
       });
 
       function init() {
-        var features = carto.features(topology, geometries),
+        features = carto.features(topology, geometries),
             path = d3.geo.path()
               .projection(proj);
 
@@ -93,21 +93,26 @@
         var index = 23;
         var year = 1985;
         var min = 0;
-        var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+        // THE MIN AND MAX DOESN'T WORK... WHY
+        var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {console.log(d[year]);return d[year]}})
 
         // normalize the scale to positive numbers
         var scale = d3.scale.linear()
           .domain([min,max])
-          .range([1, max]);
-
+          .range([1, 1000]);
         // tell the cartogram to use the scaled values
-        //carto.value(function(d) {
-          //return 0;
+        carto.value(function(d) {
+
+          console.log(d.properties.name)
+          if (energydata[index].countries[d.properties.name] != undefined) {
+          console.log(scale(energydata[index].countries[d.properties.name][year]));
+          return scale(energydata[index].countries[d.properties.name][year]);
+        }
           //return scale(value(d));
-        //});
+        });
 
         // generate the new features, pre-projected
-        //var features = carto(topology, geometries).features;
+        var features = carto(topology, geometries).features;
 
         // update tooltips
         /*
@@ -117,11 +122,13 @@
               return [d.properties.NAME, fmt(value(d))].join(": ");
             });
         */
-        
+
+
         states.transition()
           .duration(750)
           //.ease("linear")
-          //.attr("d", carto.path);
+          // THIS CARTO.PATH MESSES THINGS UP... WHY
+          .attr("d", carto.path);
       }
     </script>
   </body>
