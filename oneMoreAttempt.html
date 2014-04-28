@@ -32,9 +32,13 @@
     </div>
     <script>
 
-      // for scope
+      // for scope, some variables
       var energydata, features;
+
+      // hardcoded variables to replace with UI 
       var year = 1985, index = 23;
+
+      // from other file, untouched 
       var map = d3.select("#map"),
           layer = map.append("g")
             .attr("id", "layer"),
@@ -42,34 +46,45 @@
             .attr("id", "states")
             .selectAll("path");
 
+      // variables including world view merc projection (the plane is the world, not just US)
       var proj = d3.geo.mercator(),
           topology,
           geometries,
           carto;
      
-      // on event fire, this function is called
+      // on click, this function is called
       window.onclick = function() {
-        year = 2000;
+        // toggle year data
+        if (year == 2000)
+          year = 1985;
+        else
+          year = 2000;
         update();
       };
 
+      // read in the world conutry outline data
       d3.json("data/world_data.json", function(topo) {
+        // store topo and gemoetires, if curious, console.log these and print them
         topology = topo;
         geometries = topology.objects.countries.geometries;
 
+        // here is where the cartogram.js is called - compare and printout whatever
         carto = d3.cartogram()
             .projection(proj)
+            // store the correct properties into the proper parties for carto
             .properties(function(d) {
               return geometries[d.id].properties;
             })
+            // not sure if this does anything, but tried to imitate the originalCartogram code
             .value(function(d) {
+              // make sure the value isn't undefined (no country) or the data isn't empty
               if (energydata[index].countries[d.properties.name] != undefined && energydata[index].countries[d.properties.name][year] != "" )
                 return +energydata[index].countries[d.properties.name][year];
               else
                 return 1;
             });
 
-        // load country data
+        // load the energy data
         d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
           energydata = data;
           init();
@@ -77,10 +92,14 @@
       });
 
       function init() {
+
+        // create features, you can print out features to see what it's like
         features = carto.features(topology, geometries),
+            // draws the initial projection? from originalCode
             path = d3.geo.path()
               .projection(proj);
 
+        // this udpates the features
         states = states.data(features)
           .enter()
           .append("path")
@@ -99,34 +118,45 @@
 
       function update() {
   
+        // just some helpful printouts to show that the event is being handled
         console.log("updating")
         console.log("year is: ")
         console.log(year);
+
+        // compute value by getting the right valid data 
         var value = function(d) {
           if (energydata[index].countries[d.properties.name] != undefined && energydata[index].countries[d.properties.name][year] != "" )
             return +energydata[index].countries[d.properties.name][year];
           else
             return 1;
         }
+
+        // the min and max has been tested extensively - still printout quickly though to confirm, won't hurt
+        // the map stores the values based on the function "value" into an array called "values"
         var values = states.data()
               .map(value) 
               .filter(function(n) {
                 return !isNaN(n);
               })
+              // sort ascending
               .sort(d3.ascending),
+
+            // get min and max for the range - this is tested by Wesley
             low = values[0],
             high = values[values.length - 1];
 
+        // linear color scale
         var color = d3.scale.category10();
 
-        // normalize the scale to positive numbers
+        // normalize the data to the scale - 
         // maybe use log scale
         // var scale = d3.scale.log()
         var scale = d3.scale.linear()
           .domain([low, high])
+          // the smaller the range, the more distortion
           .range([1, 1.00001]);
 
-        // tell the cartogram to use the scaled values
+        // tell the cartogram to use the scaled values - I believe this updates the cartogram internal data
         carto.value(function(d) {
           return scale(value(d));
         });
@@ -134,19 +164,24 @@
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
 
-        // update tooltips
+        // update the data on the map
         states.data(features)
+          // update tooltips
           .select("title")
             .text(function(d) {
+              // should reflect the change in data when clicked
               return [d.properties.name, value(d)].join(": ");
             });
 
+        // apply smooth transition
         states.transition()
           .duration(10000)
           .ease("linear")
+          // change color, it's also transitioned - just for fun
           .attr("fill", function(d) {
             return color(value(d));
           })
+          // this should be where the paths get updated - but currently I believe somehow  internally this isn't working - maybe write a function inside this and print out "d"?
           .attr("d", carto.path);
       }
     </script>
