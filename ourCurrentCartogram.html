@@ -31,7 +31,9 @@
       </div>
     </div>
     <script>
-
+      // for scope
+      var energydata;
+      /*
       var percent = (function() {
             var fmt = d3.format(".2f");
             return function(n) { return fmt(n) + "%"; };
@@ -48,7 +50,7 @@
             .map(fields),
           // to assign what field it needs to be
           field = fields[0];
-
+      */
 
       var map = d3.select("#map"),
           layer = map.append("g")
@@ -67,7 +69,6 @@
             .properties(function(d) {
               return dataById[d.id];
             })
-            
             .value(function(d) {
               return +d.properties[field];
             });
@@ -77,11 +78,19 @@
         update();
       };
 
-      //d3.json("data/world_data.json", function(topo) {
-      d3.json("data/us-states.topojson", function(topo) {
+      d3.json("data/world_data.json", function(topo) {
+      //d3.json("data/us-states.topojson", function(topo) {
         topology = topo;
-        geometries = topology.objects.states.geometries;
-        //geometries = topology.objects.countries.geometries;
+        //geometries = topology.objects.states.geometries;
+        geometries = topology.objects.countries.geometries;
+
+        // load country data
+        d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
+          energydata = data;
+          init();
+        });
+
+        /*
         d3.csv("data/nst_2011.csv", function(data) {
           rawData = data;
           dataById = d3.nest()
@@ -90,6 +99,7 @@
             .map(data);
           init();
         });
+        */
       });
 
       function init() {
@@ -102,11 +112,11 @@
           .append("path")
             .attr("class", "state")
             .attr("id", function(d) {
-              return d.properties.NAME;
-              // return geometries[d.id].properties.name;
+              d.properties =  geometries[d.id].properties;
+              return d.properties.name;
             })
-            .attr("fill", "#fafafa")
             .attr("d", path);
+            console.log(features)
 
         states.append("title");
 
@@ -115,6 +125,7 @@
 
 
       function update() {
+        /*
         var key = field.key.replace("%d", year),
             fmt = (typeof field.format === "function")
               ? field.format
@@ -129,27 +140,49 @@
               })
               .sort(d3.ascending),
             lo = values[0],
-            hi = values[values.length - 1];
+            hi = values[values.length - 1]; */
+            
+        // hard code year for now
+        var index = 23;
+        var year = 1985;
+        var min = 0;
+        var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
 
         // normalize the scale to positive numbers
         var scale = d3.scale.linear()
-          .domain([lo, hi])
-          .range([1, 1000]);
+          .domain([min,max])
+          .range([1, max]);
 
         // tell the cartogram to use the scaled values
         carto.value(function(d) {
-          return scale(value(d));
+          if(energydata[index].countries[geometries[d.id].properties.name] != undefined) {
+            //console.log(scale(energydata[index].countries[geometries[d.id].properties.name][year]));
+            console.log(max)
+            if (scale(energydata[index].countries[geometries[d.id].properties.name][year]) > max)
+            {
+              console.log(geometries[d.id].properties.name);
+              console.log(energydata[index].countries[geometries[d.id].properties.name][year])
+            }
+            return scale(energydata[index].countries[geometries[d.id].properties.name][year]);
+          }
+          else {
+            return 1;
+          }
+          //return scale(value(d));
         });
 
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
 
-        // update the data
+        // update tooltips
+        /*
         states.data(features)
           .select("title")
             .text(function(d) {
               return [d.properties.NAME, fmt(value(d))].join(": ");
             });
+        */
+        
 
         states.transition()
           .duration(750)

@@ -91,20 +91,6 @@ function setup(width,height){
 
   g = svg.append("g");
 
-  // var cartogram = d3.cartogram()
-  //   .projection(d3.geo.albersUsa())
-  //   .value(function(d) {
-  //     return Math.random() * 100;
-  //   });
-  // d3.json("data/world_data.json", function(topology) {
-  //   var features = cartogram(topology);
-  //   d3.select("svg").selectAll("path")
-  //     .data(features)
-  //     .enter()
-  //     .append("path")
-  //     .attr("d", cartogram.path);
-  //   });
-
 }
 
 // load country data
