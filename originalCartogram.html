@@ -69,14 +69,15 @@
               return dataById[d.id];
             })
             .value(function(d) {
-              console.log("yo");
-              console.log(d)
-              console.log(+d.properties[field])
               return +d.properties[field];
             });
      
       // on event fire, this function is called
-      window.onhashchange = function() {
+      window.onclick = function() {
+        if (year == 2010)
+          year = 2011;
+        else
+          year = 2010;
         update();
       };
 
@@ -106,7 +107,6 @@
             .attr("class", "state")
             .attr("id", function(d) {
               return d.properties.NAME;
-              // return geometries[d.id].properties.name;
             })
             .attr("fill", "#fafafa")
             .attr("d", path);
@@ -140,19 +140,21 @@
           .range([1, 1000]);
 
         // tell the cartogram to use the scaled values
+
+        //console.log(carto.value())
         carto.value(function(d) {
+          //console.log(value(d));  
           return scale(value(d));
         });
 
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
-
         // update the data
         states.data(features)
-          .select("title")
-            .text(function(d) {
-              return [d.properties.NAME, fmt(value(d))].join(": ");
-            });
+           .select("title")
+             .text(function(d) {
+               return [d.properties.NAME, fmt(value(d))].join(": ");
+             });
 
         states.transition()
           .duration(750)

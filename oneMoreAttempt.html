@@ -31,9 +31,10 @@
       </div>
     </div>
     <script>
+
       // for scope
       var energydata, features;
-
+      var year = 1985, index = 23;
       var map = d3.select("#map"),
           layer = map.append("g")
             .attr("id", "layer"),
@@ -47,7 +48,9 @@
           carto;
      
       // on event fire, this function is called
-      window.onhashchange = function() {
+      window.onclick = function() {
+        console.log("hi")
+        year = 1990;
         update();
       };
 
@@ -89,45 +92,51 @@
 
 
       function update() {
-        // hard code year for now
-        var index = 23;
-        var year = 1985;
-        var min = 0;
-        // THE MIN AND MAX DOESN'T WORK... WHY
-        var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {console.log(d[year]);return d[year]}})
+  
+
+        var value = function(d) {
+          if (energydata[index].countries[d.properties.name] != undefined && energydata[index].countries[d.properties.name][year] != "" )
+            return +energydata[index].countries[d.properties.name][year];
+          else
+            return 1;
+        }
+        var values = states.data()
+              .map(value) 
+              .filter(function(n) {
+                return !isNaN(n);
+              })
+              .sort(d3.ascending),
+            low = values[0],
+            high = values[values.length - 1];
+            console.log(values)
 
         // normalize the scale to positive numbers
+        // maybe use log scale
+        // var scale = d3.scale.log()
         var scale = d3.scale.linear()
-          .domain([min,max])
-          .range([1, 1000]);
+          .domain([low, high])
+          .range([1, 100000]);
+
         // tell the cartogram to use the scaled values
         carto.value(function(d) {
-
-          console.log(d.properties.name)
-          if (energydata[index].countries[d.properties.name] != undefined) {
-          console.log(scale(energydata[index].countries[d.properties.name][year]));
-          return scale(energydata[index].countries[d.properties.name][year]);
-        }
-          //return scale(value(d));
+          return scale(value(d));
         });
 
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
-
+        //console.log(states.data())
+        states.data(features)
         // update tooltips
-        /*
+        
         states.data(features)
           .select("title")
             .text(function(d) {
-              return [d.properties.NAME, fmt(value(d))].join(": ");
+              return [d.properties.name, value(d)].join(": ");
             });
-        */
-
 
         states.transition()
           .duration(750)
-          //.ease("linear")
-          // THIS CARTO.PATH MESSES THINGS UP... WHY
+          .ease("linear")
           .attr("d", carto.path);
       }
     </script>
