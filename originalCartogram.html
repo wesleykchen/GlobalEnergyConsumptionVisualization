@@ -108,7 +108,7 @@
             .attr("id", function(d) {
               return d.properties.NAME;
             })
-            .attr("fill", "#fafafa")
+            .attr("fill", "#ffffff")
             .attr("d", path);
 
         states.append("title");
@@ -118,6 +118,10 @@
 
 
       function update() {
+
+        console.log("updating")
+        console.log("year is: ")
+        console.log(year);
         var key = field.key.replace("%d", year),
             fmt = (typeof field.format === "function")
               ? field.format
@@ -134,6 +138,8 @@
             lo = values[0],
             hi = values[values.length - 1];
 
+        var color = d3.scale.category10();
+
         // normalize the scale to positive numbers
         var scale = d3.scale.linear()
           .domain([lo, hi])
@@ -141,7 +147,7 @@
 
         // tell the cartogram to use the scaled values
 
-        //console.log(carto.value())
+        // console.log(carto.value())
         carto.value(function(d) {
           //console.log(value(d));  
           return scale(value(d));
@@ -155,10 +161,12 @@
              .text(function(d) {
                return [d.properties.NAME, fmt(value(d))].join(": ");
              });
-
-        states.transition()
-          .duration(750)
+        states.transition() 
+          .duration(10000)
           .ease("linear")
+          .attr("fill", function(d) {
+            return color(value(d));
+          })
           .attr("d", carto.path);
       }
     </script>

@@ -49,8 +49,7 @@
      
       // on event fire, this function is called
       window.onclick = function() {
-        console.log("hi")
-        year = 1990;
+        year = 2000;
         update();
       };
 
@@ -93,7 +92,9 @@
 
       function update() {
   
-
+        console.log("updating")
+        console.log("year is: ")
+        console.log(year);
         var value = function(d) {
           if (energydata[index].countries[d.properties.name] != undefined && energydata[index].countries[d.properties.name][year] != "" )
             return +energydata[index].countries[d.properties.name][year];
@@ -108,35 +109,39 @@
               .sort(d3.ascending),
             low = values[0],
             high = values[values.length - 1];
-            console.log(values)
+
+        var color = d3.scale.category10();
 
         // normalize the scale to positive numbers
         // maybe use log scale
         // var scale = d3.scale.log()
         var scale = d3.scale.linear()
           .domain([low, high])
-          .range([1, 100000]);
+          .range([1, 1.1]);
 
         // tell the cartogram to use the scaled values
         carto.value(function(d) {
           return scale(value(d));
         });
 
+console.log(carto.value());
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
-        //console.log(states.data())
-        states.data(features)
+
         // update tooltips
-        
         states.data(features)
           .select("title")
             .text(function(d) {
               return [d.properties.name, value(d)].join(": ");
             });
 
+// console.log(carto.path)
         states.transition()
-          .duration(750)
+          .duration(10000)
           .ease("linear")
+          .attr("fill", function(d) {
+            return color(value(d));
+          })
           .attr("d", carto.path);
       }
     </script>
