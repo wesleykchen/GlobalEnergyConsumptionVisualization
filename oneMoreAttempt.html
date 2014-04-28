@@ -62,6 +62,12 @@
             .properties(function(d) {
               return geometries[d.id].properties;
             })
+            .value(function(d) {
+              if (energydata[index].countries[d.properties.name] != undefined && energydata[index].countries[d.properties.name][year] != "" )
+                return +energydata[index].countries[d.properties.name][year];
+              else
+                return 1;
+            });
 
         // load country data
         d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
@@ -82,6 +88,7 @@
             .attr("id", function(d) {
               return d.properties.name;
             })
+            .attr("fill", "#ffffff")
             .attr("d", path);
 
         states.append("title");
@@ -117,14 +124,13 @@
         // var scale = d3.scale.log()
         var scale = d3.scale.linear()
           .domain([low, high])
-          .range([1, 1.1]);
+          .range([1, 1.00001]);
 
         // tell the cartogram to use the scaled values
         carto.value(function(d) {
           return scale(value(d));
         });
 
-console.log(carto.value());
         // generate the new features, pre-projected
         var features = carto(topology, geometries).features;
 
@@ -135,7 +141,6 @@ console.log(carto.value());
               return [d.properties.name, value(d)].join(": ");
             });
 
-// console.log(carto.path)
         states.transition()
           .duration(10000)
           .ease("linear")
