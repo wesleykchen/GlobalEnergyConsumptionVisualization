@@ -121,22 +121,44 @@ text {
   </div>
   <div id="table"></div>
 
-  <script src="libs/d3.v3.min.js"></script>
+  
+ <script src="libs/d3.v3.min.js"></script>
   <script src="libs/topojson.v1.min.js"></script>
   <script src="libs/nv.d3.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script src="libs/bootstrap.js"></script>
-  <script src="jquery-1.8.2.min.js"></script>
-  <script src="jquery.joyride-2.0.js"></script>
-
-  <script src="cartogram.js"></script>  <script type = "text/javascript">
+  <script src="libs/jquery.joyride-2.1.js"></script>
+  <script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
   </script>
   <script type = "text/javascript" src="energygraph.js"></script>
   <script type = "text/javascript" src="globalenergy.js"></script>
 
+  <ol id="joystick">
+  <li data-id="container"> This map displays the different types of energy usage from 1971 to 2007 </li>
+</ol>
+
+<script>
+$(window).load(function() {
+  $("#joystick").joyride({
+    'tipLocation': 'bottom',         // 'top' or 'bottom' in relation to parent
+  'nubPosition': 'auto',           // override on a per tooltip bases
+  'scrollSpeed': 300,              // Page scrolling speed in ms
+  'timer': 2000,                   // 0 = off, all other numbers = time(ms) 
+  'startTimerOnClick': true,       // true/false to start timer on first click
+  'nextButton': true,              // true/false for next button visibility
+  'tipAnimation': 'pop',           // 'pop' or 'fade' in each tip
+  'pauseAfter': [],                // array of indexes where to pause the tour after
+  'tipAnimationFadeSpeed': 300,    // if 'fade'- speed in ms of transition
+  'cookieMonster': true,           // true/false for whether cookies are used
+  'cookieName': 'JoyRide',         // choose your own cookie name
+  'cookieDomain': false,           // set to false or yoursite.com
+  
+  });
+});
+</script>
 
 
 </body>

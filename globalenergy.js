@@ -122,6 +122,7 @@ function loadMapData() {
 
     topo = countries;
     draw(topo);
+    drawtable();
   });
 }
 var countriesSelection;
@@ -253,6 +254,50 @@ function throttle() {
     throttleTimer = window.setTimeout(function() {
       redraw();
     }, 200);
+}
+
+function drawtable() 
+{
+  theader = ["Rank", "Country", "Energy Consumption"];
+      
+      var table = d3.select("#table").append("table")
+      .attr("id", "some_name"),
+      thead = table.append("thead");
+      tbody = table.append("tbody");
+
+    table.append("caption")
+      .html("Global Energy Consumption<br>Yearly Rankings<br>" + energydata[1].name + "<br>" + "1995");
+
+      console.log(year);
+
+    thead.append("tr").selectAll("th")
+      .data(theader)
+      .enter()
+      .append("th")
+      .text(function(d) { return d; });
+
+    //   var rows = tbody.selectAll("tr")
+    //   .data(energydata)
+    //   .enter()
+    //   .append("tr");
+
+    //   var paint_zebra_rows = function(rows) {
+    //   rows
+    //     .classed("odd", function(_,i) { return (i % 2) == 0; });
+    // }
+
+    // paint_zebra_rows(rows)
+
+    // var cells = rows.selectAll("td")
+    //   .data(function(row) {
+    //     return d3.range(Object.keys(row).length).map(function(column, i) {
+    //       return row[Object.keys(row)[i]];
+    //       });
+    //     })
+    //   .enter()
+    //   .append("td")
+    //   .text(function(d) { return d; })
+
 }
 
 //tutorial 
