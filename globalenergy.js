@@ -254,8 +254,6 @@ function drawtable()
     table.append("caption")
       .html("Global Energy Consumption<br>Yearly Rankings<br>" + energydata[1].name + "<br>" + "1995");
 
-      console.log(year);
-
     thead.append("tr").selectAll("th")
       .data(theader)
       .enter()

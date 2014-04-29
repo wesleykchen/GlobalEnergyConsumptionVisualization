@@ -151,10 +151,11 @@ table {
   table .highlight {
     background-color: #F3ED86 !important;
   }
-#cssmenu,
+  #cssmenu,
 #cssmenu ul,
 #cssmenu ul li,
-#cssmenu ul li a {
+#cssmenu ul li a,
+#cssmenu #menu-button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -166,32 +167,8 @@ table {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-#cssmenu {
-  width: auto;
-  font-family: Helvetica, Arial, sans-serif;
-  color: #ffffff;
-}
-#cssmenu.align-right ul li {
-  float: right;
-  border-right: 0;
-  border-left: 1px solid rgba(0, 0, 0, 0.22);
-}
-#cssmenu.align-right ul li a {
-  border-right: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-#cssmenu ul {
-  background: #222222;
-  /* Old browsers */
-
-  background: -moz-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
-  background: -webkit-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
-  background: -o-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
-  background: -ms-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
-  background: linear-gradient(to top, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
-}
 #cssmenu:after,
-#cssmenu ul:after {
+#cssmenu > ul:after {
   content: '.';
   display: block;
   clear: both;
@@ -199,61 +176,234 @@ table {
   line-height: 0;
   height: 0;
 }
-#cssmenu ul li {
+#cssmenu #menu-button {
+  display: none;
+}
+#cssmenu {
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  background: #ff7700;
+  background: -moz-linear-gradient(top, #ff871f 0%, #d66400 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff871f), color-stop(100%, #d66400));
+  background: -webkit-linear-gradient(top, #ff871f 0%, #d66400 100%);
+  background: -o-linear-gradient(top, #ff871f 0%, #d66400 100%);
+  background: -ms-linear-gradient(top, #ff871f 0%, #d66400 100%);
+  background: linear-gradient(to bottom, #ff871f 0%, #d66400 100%);
+}
+#cssmenu > ul > li {
   float: left;
-  display: block;
-  border-right: 1px solid rgba(0, 0, 0, 0.22);
-  z-index: 1;
 }
-#cssmenu ul li::after {
-  content: '';
-  width: 100%;
-  height: 8px;
-  position: absolute;
-  border-top-left-radius: 50% 4px;
-  border-top-right-radius: 50% 4px;
-  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
-  background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
-  background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
-  background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
-  z-index: 2;
-  bottom: 10px;
-  bottom: 12px;
-}
-#cssmenu ul li a {
-  display: block;
-  padding: 10px 30px;
+#cssmenu > ul > li > a {
+  padding: 18px 25px 21px 25px;
+  border-right: 1px solid rgba(80, 80, 80, 0.12);
   text-decoration: none;
-  font-size: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
   text-transform: uppercase;
-  color: #ffffff;
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-  z-index: 3;
+  letter-spacing: 1px;
 }
-#cssmenu ul li a:hover,
-#cssmenu ul li.active a {
+#cssmenu > ul > li:hover > a,
+#cssmenu > ul > li > a:hover,
+#cssmenu > ul > li.active > a {
   color: #ffffff;
+  background: #f07000;
+  background: rgba(0, 0, 0, 0.1);
 }
-#cssmenu ul li:hover,
-#cssmenu ul li.active {
-  background: #f09000;
-  /* Old browsers */
+#cssmenu > ul > li.has-sub > a {
+  padding-right: 45px;
+}
+#cssmenu > ul > li.has-sub > a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-top-color: #ffffff;
+  right: 17px;
+  top: 22px;
+}
+#cssmenu > ul > li.has-sub.active > a::after,
+#cssmenu > ul > li.has-sub:hover > a {
+  border-top-color: #ffffff;
+}
+#cssmenu ul ul {
+  position: absolute;
+  left: -9999px;
+  top: 60px;
+  padding-top: 6px;
+  font-size: 13px;
+  opacity: 0;
+  -webkit-transition: top 0.2s ease, opacity 0.2s ease-in;
+  -moz-transition: top 0.2s ease, opacity 0.2s ease-in;
+  -ms-transition: top 0.2s ease, opacity 0.2s ease-in;
+  -o-transition: top 0.2s ease, opacity 0.2s ease-in;
+  transition: top 0.2s ease, opacity 0.2s ease-in;
+}
+#cssmenu > ul > li > ul::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-bottom-color: #ffffff;
+  top: -4px;
+  left: 20px;
+}
+#cssmenu ul ul ul::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-right-color: #ffffff;
+  top: 11px;
+  left: -4px;
+}
+#cssmenu > ul > li > ul {
+  top: 120px;
+}
+#cssmenu > ul > li:hover > ul {
+  top: 52px;
+  left: 0;
+  opacity: 1;
+}
+#cssmenu ul ul ul {
+  padding-top: 0;
+  padding-left: 6px;
+}
+#cssmenu ul ul > li:hover > ul {
+  left: 180px;
+  top: 0;
+  opacity: 1;
+}
+#cssmenu ul ul li a {
+  text-decoration: none;
+  font-weight: 400;
+  padding: 11px 25px;
+  width: 180px;
+  color: #777777;
+  background: #ffffff;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1), 1px 1px 1px rgba(0, 0, 0, 0.1), -1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+#cssmenu ul ul li:hover > a,
+#cssmenu ul ul li.active > a {
+  color: #333333;
+}
+#cssmenu ul ul li:first-child > a {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+#cssmenu ul ul li:last-child > a {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+#cssmenu > ul > li > ul::after {
+  position: absolute;
+  display: block;
+}
+#cssmenu ul ul li.has-sub > a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-left-color: #777777;
+  right: 17px;
+  top: 14px;
+}
+#cssmenu ul ul li.has-sub.active > a::after,
+#cssmenu ul ul li.has-sub:hover > a::after {
+  border-left-color: #333333;
+}
+@media all and (max-width: 800px), only screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (min--moz-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (-o-min-device-pixel-ratio: 2/1) and (max-width: 1024px), only screen and (min-device-pixel-ratio: 2) and (max-width: 1024px), only screen and (min-resolution: 192dpi) and (max-width: 1024px), only screen and (min-resolution: 2dppx) and (max-width: 1024px) {
+  #cssmenu {
+    background: #ff7700;
+  }
+  #cssmenu > ul {
+    display: none;
+  }
+  #cssmenu > ul.open {
+    display: block;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  #cssmenu > ul > li {
+    float: none;
+  }
+  #cssmenu > ul > li > a {
+    padding: 18px 25px 18px 25px;
+    border-right: 0;
+  }
+  #cssmenu > ul > li:hover > a,
+  #cssmenu > ul > li.active > a {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  #cssmenu #menu-button {
+    display: block;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 18px 25px 18px 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: url('bg.png');
+    cursor: pointer;
+  }
+  #cssmenu ul ul,
+  #cssmenu ul li:hover > ul,
+  #cssmenu > ul > li > ul,
+  #cssmenu ul ul ul,
+  #cssmenu ul ul li:hover > ul {
+    left: 0;
+    top: auto;
+    opacity: 1;
+    width: 100%;
+    padding: 0;
+    position: relative;
+  }
+  #cssmenu ul ul li {
+    width: 100%;
+  }
+  #cssmenu ul ul li a {
+    width: 100%;
+    box-shadow: none;
+    padding-left: 35px;
+  }
+  #cssmenu ul ul ul li a {
+    padding-left: 45px;
+  }
+  #cssmenu ul ul li:first-child > a,
+  #cssmenu ul ul li:last-child > a {
+    border-radius: 0;
+  }
+  #cssmenu #menu-button::after {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 22px;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    right: 25px;
+    top: 18px;
+  }
+  #cssmenu #menu-button::before {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 22px;
+    border-top: 2px solid #ffffff;
+    right: 25px;
+    top: 28px;
+  }
+  #cssmenu > ul > li.has-sub > a::after,
+  #cssmenu ul ul li.has-sub > a::after {
+    display: none;
+  }
+}
 
-  background: -moz-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
-  background: -webkit-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
-  background: -o-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
-  background: -ms-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
-  background: linear-gradient(to top, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
-}
-#cssmenu ul li:hover::after,
-#cssmenu ul li.active::after {
-  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
-  background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
-  background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
-  background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
-}
+
 
 
 </style>
@@ -261,10 +411,18 @@ table {
 <body>
 <div id='cssmenu'>
 <ul>
-   <li class='active'><a href='index.html'><span>Home</span></a></li>
-   <li><a href='#'><span>Cartogram</span></a></li>
+   <li class='has-sub'><a href='#'><span>Visualizations</span></a>
+      <ul>
+         <li class='active'><a href='index.html'><span>Standard</span></a>
+         </li>
+         <li class='#'><a href='#'><span>Cartogram</span></a>
+         </li>
+      </ul>
+   </li>
+      <li><a href='#'><span>About</span></a></li>
+
    <li><a href='#'><span>Video</span></a></li>
-   <li class='last'><a href='#'><span>Process Book</span></a></li>
+   <li class='last'><a href='https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing'><span>Process Book</span></a></li>
 </ul>
 </div>
   <h1>Global Energy Usage by Country since 1971</h1>
@@ -290,7 +448,6 @@ table {
   <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
   <script src="cartogram.js"></script>
-  <script src="libs/jquery.joyride-2.1.js"></script>
   <script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
@@ -300,7 +457,18 @@ table {
 
 <script>
 $(document).ready(function() {
-    $('table.tableSorter').tableSort();
+    $('table.tableSorter').tableSort();}
+
+$('#cssmenu').prepend('<div id="menu-button">Menu</div>');
+  $('#cssmenu #menu-button').on('click', function(){
+    var menu = $(this).next('ul');
+    if (menu.hasClass('open')) {
+      menu.removeClass('open');
+    }
+    else {
+      menu.addClass('open');
+    }
+  });
 </script>
 
 
