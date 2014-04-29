@@ -13,6 +13,16 @@
   stroke: #fff;
   stroke-width: 1.5px;
 }
+
+h1 {
+  font-family: Aldrich ;
+line-height: 1em;
+color: orange;
+font-size: 51px;
+text-shadow:0px 0px 0 rgb(159,159,159),1px 0px 0 rgb(144,144,144),2px 0px 0 rgb(130,130,130),3px 0px 0 rgb(115,115,115),4px 0px 0 rgb(101,101,101),5px 0px 0 rgb(86,86,86), 6px 0px 0 rgb(72,72,72),7px 0px 6px rgba(0,0,0,1),7px 0px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+text-align: center;
+
+}
 .text{
   font-size:10px;
   text-transform:capitalize;
@@ -111,6 +121,9 @@ table {
     float: right;
     margin-top:30px;
     margin-right:100px; 
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
   }
 
   thead {
@@ -138,12 +151,122 @@ table {
   table .highlight {
     background-color: #F3ED86 !important;
   }
+#cssmenu,
+#cssmenu ul,
+#cssmenu ul li,
+#cssmenu ul li a {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+  line-height: 1;
+  display: block;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#cssmenu {
+  width: auto;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #ffffff;
+}
+#cssmenu.align-right ul li {
+  float: right;
+  border-right: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.22);
+}
+#cssmenu.align-right ul li a {
+  border-right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+#cssmenu ul {
+  background: #222222;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
+  background: -webkit-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
+  background: -o-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
+  background: -ms-linear-gradient(bottom, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
+  background: linear-gradient(to top, #000000 0%, #222222 50%, #3c3c3c 51%, #393939 78%, #888888 100%);
+}
+#cssmenu:after,
+#cssmenu ul:after {
+  content: '.';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+#cssmenu ul li {
+  float: left;
+  display: block;
+  border-right: 1px solid rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+#cssmenu ul li::after {
+  content: '';
+  width: 100%;
+  height: 8px;
+  position: absolute;
+  border-top-left-radius: 50% 4px;
+  border-top-right-radius: 50% 4px;
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
+  background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
+  background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #222222 61%, #222222 100%);
+  background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  z-index: 2;
+  bottom: 10px;
+  bottom: 12px;
+}
+#cssmenu ul li a {
+  display: block;
+  padding: 10px 30px;
+  text-decoration: none;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #ffffff;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 3;
+}
+#cssmenu ul li a:hover,
+#cssmenu ul li.active a {
+  color: #ffffff;
+}
+#cssmenu ul li:hover,
+#cssmenu ul li.active {
+  background: #f09000;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
+  background: -webkit-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
+  background: -o-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
+  background: -ms-linear-gradient(bottom, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
+  background: linear-gradient(to top, #a36200 0%, #f09000 50%, #ffa724 51%, #ffa51f 78%, #ffe5bd 100%);
+}
+#cssmenu ul li:hover::after,
+#cssmenu ul li.active::after {
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
+  background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
+  background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 60%, #f09000 61%, #f09000 100%);
+  background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+}
 
 
 </style>
 </head>
 <body>
-
+<div id='cssmenu'>
+<ul>
+   <li class='active'><a href='index.html'><span>Home</span></a></li>
+   <li><a href='#'><span>Cartogram</span></a></li>
+   <li><a href='#'><span>Video</span></a></li>
+   <li class='last'><a href='#'><span>Process Book</span></a></li>
+</ul>
+</div>
   <h1>Global Energy Usage by Country since 1971</h1>
   <h3>CS171 Final Project - WC IS WC </h3>
   <p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>

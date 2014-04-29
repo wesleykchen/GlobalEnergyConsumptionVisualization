@@ -86,7 +86,7 @@ for (var i = 0; i < secondserieskeys.length; ++i)
 
 nv.addGraph(function() {
     chart = nv.models.linePlusBarChart()
-        .margin({top: 30, right: 60, bottom: 50, left: 70})
+        .margin({top: 40, right: 60, bottom: 50, left: 70})
         .x(function(d,i) { return i })
         .color(d3.scale.category10().range());
 
