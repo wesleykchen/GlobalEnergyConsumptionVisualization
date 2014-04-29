@@ -247,7 +247,7 @@ function drawtable()
   theader = ["Rank", "Country", "Energy Consumption"];
       
       var table = d3.select("#table").append("table")
-      .attr("id", "some_name"),
+      .attr("class", "tableSorter"),
       thead = table.append("thead");
       tbody = table.append("tbody");
 

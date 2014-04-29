@@ -4,6 +4,8 @@
 <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <!--<link rel=" stylesheet" type="text/css" href="jquery.joyride-2.0.css"> -->
+ <link rel="stylesheet" href="css/style.css" type="text/css" />
+
 
 <title>CS171 Final Project: WC-IS-WC</title>
 <style>
@@ -101,6 +103,37 @@ text {
 */
 }
 
+table {
+    border-collapse: collapse;
+    position: relative;
+    height: 286px;
+    width: 737px;
+  }
+
+  thead {
+    font-weight: bold;
+  }
+
+  table td, table th, caption {
+    padding: 3px;
+    border: 1px solid gray;
+  }
+
+  table th:not(:first-child) {
+    cursor: s-resize;
+  }
+
+  table td:first-child, table td:last-child {
+    text-align: center;
+  }
+
+  table tr.odd {
+    background-color: #EEE;
+  }
+  table .highlight {
+    background-color: #F3ED86 !important;
+  }
+
 
 </style>
 </head>
@@ -124,6 +157,8 @@ text {
   <script src="libs/d3.v3.min.js"></script>
   <script src="libs/topojson.v1.min.js"></script>
   <script src="libs/nv.d3.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="libs/tsort.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
   <script src="cartogram.js"></script>
@@ -140,23 +175,8 @@ text {
 </ol>
 
 <script>
-$(window).load(function() {
-  $("#joystick").joyride({
-    'tipLocation': 'bottom',         // 'top' or 'bottom' in relation to parent
-  'nubPosition': 'auto',           // override on a per tooltip bases
-  'scrollSpeed': 300,              // Page scrolling speed in ms
-  'timer': 2000,                   // 0 = off, all other numbers = time(ms) 
-  'startTimerOnClick': true,       // true/false to start timer on first click
-  'nextButton': true,              // true/false for next button visibility
-  'tipAnimation': 'pop',           // 'pop' or 'fade' in each tip
-  'pauseAfter': [],                // array of indexes where to pause the tour after
-  'tipAnimationFadeSpeed': 300,    // if 'fade'- speed in ms of transition
-  'cookieMonster': true,           // true/false for whether cookies are used
-  'cookieName': 'JoyRide',         // choose your own cookie name
-  'cookieDomain': false,           // set to false or yoursite.com
-  
-  });
-});
+$(document).ready(function() {
+    $('table.tableSorter').tableSort();
 </script>
 
 
