@@ -1,157 +1,157 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-  
+
 <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <!--<link rel=" stylesheet" type="text/css" href="jquery.joyride-2.0.css"> -->
- <link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 
 
 <title>CS171 Final Project: WC-IS-WC</title>
 <style>
-.country:hover{
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
+  .country:hover{
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
 
-h1 {
-  font-family: Aldrich ;
-line-height: 1em;
-color: orange;
-font-size: 51px;
-text-shadow:0px 0px 0 rgb(159,159,159),1px 0px 0 rgb(144,144,144),2px 0px 0 rgb(130,130,130),3px 0px 0 rgb(115,115,115),4px 0px 0 rgb(101,101,101),5px 0px 0 rgb(86,86,86), 6px 0px 0 rgb(72,72,72),7px 0px 6px rgba(0,0,0,1),7px 0px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
-text-align: center;
+  h1 {
+    font-family: Aldrich ;
+    line-height: 1em;
+    color: orange;
+    font-size: 51px;
+    text-shadow:0px 0px 0 rgb(159,159,159),1px 0px 0 rgb(144,144,144),2px 0px 0 rgb(130,130,130),3px 0px 0 rgb(115,115,115),4px 0px 0 rgb(101,101,101),5px 0px 0 rgb(86,86,86), 6px 0px 0 rgb(72,72,72),7px 0px 6px rgba(0,0,0,1),7px 0px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+    text-align: center;
 
-}
-.text{
-  font-size:10px;
-  text-transform:capitalize;
-}
-#container {
-  margin:10px 10%;
-  border:2px solid #000;
-  border-radius: 5px;
-  height:400px;
-  overflow:hidden;
-  background: #BFEFFF;
-}
+  }
+  .text{
+    font-size:10px;
+    text-transform:capitalize;
+  }
+  #container {
+    margin:10px 10%;
+    border:2px solid #000;
+    border-radius: 5px;
+    height:400px;
+    overflow:hidden;
+    background: #BFEFFF;
+  }
 
-#year {
-  
-  margin-left: 10%;
-  margin-right: 10%;
-}
+  #year {
 
-#slider {
-  
-  margin-left: 10%;
-  margin-right: 10%;
-}
-.hidden { 
-  display: none; 
-}
-div.tooltip {
-  color: #222; 
-  background: #fff; 
-  padding: .5em; 
-  text-shadow: #f5f5f5 0 1px 0;
-  border-radius: 2px; 
-  box-shadow: 0px 0px 2px 0px #a6a6a6; 
-  opacity: 0.9; 
-  position: absolute;
-}
-.graticule {
-  fill: none;
-  stroke: #bbb;
-  stroke-width: .5px;
-  stroke-opacity: .5;
-}
-.equator {
-  stroke: #fff;
-  stroke-width: 1px;
-}
-body {
-  font: 10px sans-serif;
-}
+    margin-left: 10%;
+    margin-right: 10%;
+  }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+  #slider {
 
-.x.axis path {
-  display: none;
-}
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .hidden { 
+    display: none; 
+  }
+  div.tooltip {
+    color: #222; 
+    background: #fff; 
+    padding: .5em; 
+    text-shadow: #f5f5f5 0 1px 0;
+    border-radius: 2px; 
+    box-shadow: 0px 0px 2px 0px #a6a6a6; 
+    opacity: 0.9; 
+    position: absolute;
+  }
+  .graticule {
+    fill: none;
+    stroke: #bbb;
+    stroke-width: .5px;
+    stroke-opacity: .5;
+  }
+  .equator {
+    stroke: #fff;
+    stroke-width: 1px;
+  }
+  body {
+    font: 10px sans-serif;
+  }
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-body {
-  overflow-x:scroll;
-}
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
 
-text {
-  font: 12px sans-serif;
-}
+  .x.axis path {
+    display: none;
+  }
 
-#chart1 svg {
-  height: 240px;
-  margin: 10px;
-  width:700px;
-  min-width: 100px;
-  min-height: 200px;
-  display:block;
-  float:left;
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+  body {
+    overflow-x:scroll;
+  }
+
+  text {
+    font: 12px sans-serif;
+  }
+
+  #chart1 svg {
+    height: 240px;
+    margin: 10px;
+    width:700px;
+    min-width: 100px;
+    min-height: 200px;
+    display:block;
+    float:left;
 /*
   Minimum height and width is a good idea to prevent negative SVG dimensions...
   For example width should be =< margin.left + margin.right + 1,
   of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-*/
+  */
 }
 
 table {
-    border-collapse: collapse;
-    position: relative;
-    height: 286px;
-    width: 400px;
-    float: right;
-    margin-top:30px;
-    margin-right:100px; 
-    border-radius: 20px;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-  }
+  border-collapse: collapse;
+  position: relative;
+  height: 286px;
+  width: 400px;
+  float: right;
+  margin-top:30px;
+  margin-right:100px; 
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
 
-  thead {
-    font-weight: bold;
-  }
+thead {
+  font-weight: bold;
+}
 
-  table td, table th, caption {
-    padding: 3px;
-    border: 1px solid gray;
-  }
+table td, table th, caption {
+  padding: 3px;
+  border: 1px solid gray;
+}
 
-  table th {
-    cursor: s-resize;
-    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+table th {
+  cursor: s-resize;
+  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
 
-  }
+}
 
-  table td:first-child, table td:last-child {
-    text-align: center;
-  }
+table td:first-child, table td:last-child {
+  text-align: center;
+}
 
-  table tr.odd {
-    background-color: #EEE;
-  }
-  table .highlight {
-    background-color: #F3ED86 !important;
-  }
-  #cssmenu,
+table tr.odd {
+  background-color: #EEE;
+}
+table .highlight {
+  background-color: #F3ED86 !important;
+}
+#cssmenu,
 #cssmenu ul,
 #cssmenu ul li,
 #cssmenu ul li a,
@@ -403,72 +403,86 @@ table {
   }
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
 
 
 
 </style>
 </head>
 <body>
-<div id='cssmenu'>
-<ul>
-   <li class='has-sub'><a href='#'><span>Visualizations</span></a>
+  <div id='cssmenu'>
+    <ul>
+     <li class='has-sub'><a href='#'><span>Visualizations</span></a>
       <ul>
-         <li class='active'><a href='index.html'><span>Standard</span></a>
-         </li>
-         <li class='#'><a href='#'><span>Cartogram</span></a>
-         </li>
-      </ul>
+       <li class='active'><a href='index.html'><span>Standard</span></a>
+       </li>
+       <li class='#'><a href='#'><span>Cartogram</span></a>
+       </li>
+     </ul>
    </li>
-      <li><a href='#'><span>About</span></a></li>
+   <li><a href='#'><span>About</span></a></li>
 
    <li><a href='#'><span>Video</span></a></li>
    <li class='last'><a href='https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing'><span>Process Book</span></a></li>
-</ul>
+ </ul>
 </div>
-  <h1>Global Energy Usage by Country since 1971</h1>
-  <h3>CS171 Final Project - WC IS WC </h3>
-  <p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>
+<h1>Global Energy Usage by Country since 1971</h1>
+<h3>CS171 Final Project - WC IS WC </h3>
+<p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>
+
+<div id="dropdown">
+  <label>Energy Source: </label>
+  <select id="combobox">
+    <option value="">Choose</option>
+    <option value="ActionScript">ActionScript</option>
+
+  </select>
+</div>
 
 
-  <div id="container">
-    <div class="bootstro"></div>
-  </div>
-  <input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
-  <div id="slider"></div>
-  <div id="chart1" class='with-3d-shadow with-transitions'>
-    <svg class="bootstro" data-bootstro-content="Test"> </svg>
-  </div>
-  <div id="table"></div>
+<div id="container">
+  <div class="bootstro"></div>
+</div>
+<input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
+<div id="slider"></div>
+<div id="chart1" class='with-3d-shadow with-transitions'>
+  <svg class="bootstro" data-bootstro-content="Test"> </svg>
+</div>
+<div id="table"></div>
 
-  <script src="libs/d3.v3.min.js"></script>
-  <script src="libs/topojson.v1.min.js"></script>
-  <script src="libs/nv.d3.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-  <script src="libs/tsort.min.js"></script>
-  <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
-  <script src="cartogram.js"></script>
-  <script type = "text/javascript">
+<script src="libs/d3.v3.min.js"></script>
+<script src="libs/topojson.v1.min.js"></script>
+<script src="libs/nv.d3.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="libs/tsort.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
+<script src="cartogram.js"></script>
+<script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
   </script>
   <script type = "text/javascript" src="energygraph.js"></script>
   <script type = "text/javascript" src="globalenergy.js"></script>
 
-<script>
-$(document).ready(function() {
-    $('table.tableSorter').tableSort();}
+  <script>
+    $(document).ready(function() {
+      $('table.tableSorter').tableSort();}
 
-$('#cssmenu').prepend('<div id="menu-button">Menu</div>');
-  $('#cssmenu #menu-button').on('click', function(){
-    var menu = $(this).next('ul');
-    if (menu.hasClass('open')) {
-      menu.removeClass('open');
-    }
-    else {
-      menu.addClass('open');
-    }
-  });
+      $('#cssmenu').prepend('<div id="menu-button">Menu</div>');
+      $('#cssmenu #menu-button').on('click', function(){
+        var menu = $(this).next('ul');
+        if (menu.hasClass('open')) {
+          menu.removeClass('open');
+        }
+        else {
+          menu.addClass('open');
+        }
+      });
 </script>
 
 

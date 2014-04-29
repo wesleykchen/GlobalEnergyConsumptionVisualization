@@ -282,6 +282,11 @@ function drawtable()
     //   .append("td")
     //   .text(function(d) { return d; })
 
+//    var x = document.getElementById("dropdown");
+// var option = document.createElement("option");
+// option.text = "Kiwi";
+// x.add(option);
+
 }
 
 //tutorial 
