@@ -21,7 +21,7 @@
   margin:10px 10%;
   border:2px solid #000;
   border-radius: 5px;
-  height:500px;
+  height:400px;
   overflow:hidden;
   background: #BFEFFF;
 }
@@ -89,10 +89,10 @@ text {
 }
 
 #chart1 svg {
-  height: 340px;
+  height: 240px;
   margin: 10px;
-  width:915;
-  min-width: 300px;
+  width:700px;
+  min-width: 100px;
   min-height: 200px;
   display:block;
   float:left;
@@ -107,7 +107,10 @@ table {
     border-collapse: collapse;
     position: relative;
     height: 286px;
-    width: 737px;
+    width: 400px;
+    float: right;
+    margin-top:30px;
+    margin-right:100px; 
   }
 
   thead {
@@ -119,8 +122,10 @@ table {
     border: 1px solid gray;
   }
 
-  table th:not(:first-child) {
+  table th {
     cursor: s-resize;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+
   }
 
   table td:first-child, table td:last-child {
@@ -169,10 +174,6 @@ table {
   </script>
   <script type = "text/javascript" src="energygraph.js"></script>
   <script type = "text/javascript" src="globalenergy.js"></script>
-
-  <ol id="joystick">
-  <li data-id="container"> This map displays the different types of energy usage from 1971 to 2007 </li>
-</ol>
 
 <script>
 $(document).ready(function() {
