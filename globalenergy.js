@@ -44,9 +44,9 @@ $(function() {
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
-          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
-          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
-          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
+          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
+          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
         }
         if(countryData != undefined)
         {
