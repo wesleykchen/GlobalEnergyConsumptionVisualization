@@ -36,7 +36,7 @@
       var energydata, features;
 
       // hardcoded variables to replace with UI 
-      var year = 1985, index = 23;
+      var year = 1971, index = 25;
 
       // from other file, untouched 
       var map = d3.select("#map"),
@@ -50,15 +50,18 @@
       var proj = d3.geo.mercator(),
           topology,
           geometries,
+          features,
+          path,
           carto;
      
       // on click, this function is called
       window.onclick = function() {
         // toggle year data
-        if (year == 2000)
-          year = 1985;
+        if (year == 2005)
+          year = 1971;
         else
-          year = 2000;
+          year = 2005;
+
         update();
       };
 
@@ -94,9 +97,10 @@
       function init() {
 
         // create features, you can print out features to see what it's like
-        features = carto.features(topology, geometries),
+        features = carto.features(topology, geometries);
+        //console.log(features)
             // draws the initial projection? from originalCode
-            path = d3.geo.path()
+        path = d3.geo.path()
               .projection(proj);
 
         // this udpates the features
@@ -151,18 +155,21 @@
         // normalize the data to the scale - 
         // maybe use log scale
         // var scale = d3.scale.log()
-        var scale = d3.scale.linear()
+        var scale = d3.scale.log()
           .domain([low, high])
           // the smaller the range, the more distortion
-          .range([1, 1.00001]);
+          .range([1, 30]);
 
         // tell the cartogram to use the scaled values - I believe this updates the cartogram internal data
         carto.value(function(d) {
+          //console.log(value(d))
+          //return Math.random() * 100;
           return scale(value(d));
         });
 
         // generate the new features, pre-projected
-        var features = carto(topology, geometries).features;
+        features = carto(topology, geometries).features;
+        //console.log(features)
 
         // update the data on the map
         states.data(features)
@@ -173,14 +180,15 @@
               return [d.properties.name, value(d)].join(": ");
             });
 
+
+        //console.log(states.data())
         // apply smooth transition
         states.transition()
-          .duration(10000)
-          .ease("linear")
+          .duration(1)
           // change color, it's also transitioned - just for fun
-          .attr("fill", function(d) {
-            return color(value(d));
-          })
+          //.attr("fill", function(d) {
+          //  return color(value(d));
+          //})
           // this should be where the paths get updated - but currently I believe somehow  internally this isn't working - maybe write a function inside this and print out "d"?
           .attr("d", carto.path);
       }

@@ -61,6 +61,8 @@
           topology,
           geometries,
           rawData,
+          features,
+          path,
           dataById = {},
           carto = d3.cartogram()
             .projection(proj)
@@ -97,8 +99,9 @@
       });
 
       function init() {
-        var features = carto.features(topology, geometries),
-            path = d3.geo.path()
+        features = carto.features(topology, geometries);
+        console.log(features)
+        path = d3.geo.path()
               .projection(proj);
 
         states = states.data(features)
@@ -149,21 +152,24 @@
 
         // console.log(carto.value())
         carto.value(function(d) {
-          //console.log(value(d));  
+          //return Math.random() *100 ; 
           return scale(value(d));
         });
 
         // generate the new features, pre-projected
-        var features = carto(topology, geometries).features;
+        features = carto(topology, geometries).features;
+
+        console.log(features)
         // update the data
         states.data(features)
            .select("title")
              .text(function(d) {
                return [d.properties.NAME, fmt(value(d))].join(": ");
              });
-             
+
+        console.log(states.data())
         states.transition() 
-          .duration(10000)
+          .duration(1000)
           .ease("linear")
           .attr("fill", function(d) {
             return color(value(d));
