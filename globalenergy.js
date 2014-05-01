@@ -281,7 +281,7 @@ function draw(topo) {
     tooltip.classed("hidden", true);
   })
   .on("click", function(d,i) {
-    CreateGraph(d.properties.name, d.properties.name);
+    CreateGraph(index, d.properties.name);
   });
 
   // Here to add more labels/overlays like station points
