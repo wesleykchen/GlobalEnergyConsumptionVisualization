@@ -18,7 +18,7 @@ var topo, projection, path, svg, g;
 // make slider
 $(function() {
   $( "#slider" ).slider({
-    value:1971,
+    value: 1971,
     min: 1971,
     max: 2007,
     step: 1,
@@ -144,26 +144,28 @@ function draw(topo) {
       .style("fill", function(d, i)
       {
         // temporary basic choropleth scale - energy production
-        index = 25;
+        var etype = document.getElementById("combobox");
+        var index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
-        // TODO here is where we initially set the color, we'll also need a color update which can be done with a selectA;;
-        var year = "1985";
+        // initial value of slider
+        var year = 1971;
 
         // search for data
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
-          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
-          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return d[year]}})
+          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
+          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
         if(countryData != undefined)
         {
           // set named function for color gradient
           var choropleth = d3.scale.linear()
-          .domain([0, max])    
+          .domain([0, median, max])    
           .interpolate(d3.interpolateRgb)
-          .range(["green", "red"]);
+          .range(["green", "white", "red"]);
           return choropleth(countryData);
         }
         else
