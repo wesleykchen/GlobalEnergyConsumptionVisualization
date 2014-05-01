@@ -42,6 +42,7 @@
     height:400px;
     overflow:hidden;
     background: #BFEFFF;
+    margin-top: 30px;
   }
 
   #year {
@@ -115,11 +116,6 @@
     min-height: 200px;
     display:block;
     float:left;
-/*
-  Minimum height and width is a good idea to prevent negative SVG dimensions...
-  For example width should be =< margin.left + margin.right + 1,
-  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-  */
 }
 
 table {
@@ -162,7 +158,6 @@ table .highlight {
 }
 
 #combobox {
-  position: center;
   display: inline-block;
   margin-left: 10px;
 }
@@ -172,7 +167,7 @@ table .highlight {
 }
 
 div label {
-  margin-left: 10px;
+  margin-left: 100px;
 } 
 
 
@@ -203,10 +198,15 @@ div label {
         </div><!--/.nav-collapse -->
       </div>
     </div>
+<br> </br>
 
-<p></a>.</p>
 
-<div class="dropdown">
+
+
+
+
+<div id="container" data-step = '1' data-intro="World Map Displaying Various sources of Energy"></div>
+<div class="dropdown" data-step = '2' data-intro="Select one of the energy sources with respect either to total amount used per anum or with respect to GDP" data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
 <option value = 0 >Energy production (kt of oil equivalent)</option>
@@ -237,13 +237,8 @@ div label {
 <option value = 25>Energy use (kg of oil equivalent per capita)</option>
 </select>
 </div>
-
-
-<div id="container">
-  <div class="bootstro"></div>
-</div>
-<input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
-<div id="slider"></div>
+<input type="text" id="year" style="border:0; color:#000000; font-weight:bold;">
+<div id="slider" data-step = '3' data-intro="Select a year to view the energy parameters for the respective year" data-position='top'></div>
 <div id="chart1" class='with-3d-shadow with-transitions'>
   <svg class="bootstro" data-bootstro-content="Test"> </svg>
 </div>
@@ -256,10 +251,12 @@ div label {
 <script src="libs/tsort.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
-<script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+<script src="libs/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 <script src="cartogram.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="libs/intro.js"></script>
+<link href="css/introjs.css" rel="stylesheet">
 <script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
@@ -271,17 +268,10 @@ div label {
   <script>
     $(document).ready(function() {
       $('table.tableSorter').tableSort();}
+</script>
 
-      $('#cssmenu').prepend('<div id="menu-button">Menu</div>');
-      $('#cssmenu #menu-button').on('click', function(){
-        var menu = $(this).next('ul');
-        if (menu.hasClass('open')) {
-          menu.removeClass('open');
-        }
-        else {
-          menu.addClass('open');
-        }
-      });
+<script>
+introJs().start();
 </script>
 
 <script type="text/javascript" charset="utf-8">
