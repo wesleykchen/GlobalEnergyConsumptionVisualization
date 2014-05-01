@@ -289,26 +289,56 @@ function drawtable()
     //   .text(function(d) { return d; })
   }
 
-  function popdropdown ()
-  {
+
    // var x = document.getElementById("combobox");
    // var option = document.createElement("option");
    // option.text = energydata[i].name;
    // x.add(option);
 
    $('#combobox').change(function () {
-    	var selection = this.value; //grab the value selected
-    	console.log(selection);
-    	
-    });
+    var selection = this.value; //grab the value selected
+    console.log(selection);
 
-       //$( "#year" ).val( ui.value );
-      //var newValue = ui.value;
+          var newValue = $('#slider').slider('value');;
 
         // console.log(countriesSelection)
 
-    
- }
+        countriesSelection
+        .style("fill", function(d, i)
+        {
+        // temporary basic choropleth scale - energy production
+        var etype = document.getElementById("combobox");
+        var index = etype.options[etype.selectedIndex].value;
+        var countryName = d.properties.name;
+
+        // get the value from the slider
+        var year = $('#slider').slider('value');
+
+        // console.log(energydata)
+        // search for data
+        if (energydata[index].countries[countryName] != undefined)
+        {
+          var countryData = energydata[index].countries[countryName][year];
+          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
+          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+        }
+        if(countryData != undefined)
+        {
+          // set named function for color gradient
+          var choropleth = d3.scale.linear()
+          .domain([0, median, max])    
+          .interpolate(d3.interpolateRgb)
+          .range(["green", "white", "red"]);
+          return choropleth(countryData);
+        }
+        else
+        {
+          return "#CACACA";
+        }
+      });
+    });
+
 //tutorial 
 jQuery(document).ready(function($) {
   CreateGraph('#chart1 svg');
