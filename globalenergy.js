@@ -9,6 +9,8 @@ var zoom = d3.behavior.zoom()
 var width = document.getElementById('container').offsetWidth;
 var height = width / 2;
 
+
+var tableType = "B"; 
 // variables needed in various functions
 var topo, projection, path, svg, g;
 
@@ -101,6 +103,74 @@ d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
 
 });
 
+function generateTableData() {
+  console.log(energydata)
+}
+
+
+function drawTable(checked) {
+          var listByType;
+          var header;
+
+          // if (checked == "I") {
+          listByType = generateTableData().sort(compareByImports).reverse();
+          header = "Imports"
+          // }
+          // else if (checked == "E") {
+          //   listByType = generateTableData().sort(compareByExports).reverse();
+          //   header = "Exports";
+          // }
+          // else {
+          //   listByType = generateTableData().sort(compareByBalance).reverse();
+          //   header = "Net Balance";
+          // }
+            var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
+            var row = 0;
+            table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">" + header+ "</th></tr></thead><tbody><tr>"
+            for (var row = 1; row <= 10; row++) {
+            table += "</tr><tr>";
+            var nextCountry = listByType.shift();
+
+            try {
+              var countryCode = getCountryName(nextCountry[0]);
+            }
+            catch(err) {
+              if (nextCountry[0] == "SG") {
+                var countryCode = "Singapore"
+              }
+              else if (nextCountry[0] == "HK") {
+                var countryCode = "Hong Kong"
+              }
+              else {
+                var countryCode = nextCountry[0];
+              }
+            }
+            var val;
+            if (checked == "I") {
+              val = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+            }
+            else if (checked == "E") {
+              val = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+            }
+            else {
+              val = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+            }
+            var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+            var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+            var balanceval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+
+            table += "<td>" + row + "</td>";
+            table += "<td>" + countryCode + "</td>";
+            table += "<td>" + val + "</td>";
+          }
+
+          table += "</tr></tbody></table>";
+          $(tablecontainer).html(table);
+          $('table.rankedList').tableSort( {
+            sortBy: ['numeric', 'text', 'numeric']
+          });
+        }
+
 // load map data
 function loadMapData() {
   d3.json("data/world_data.json", function(error, world) {
@@ -109,7 +179,7 @@ function loadMapData() {
 
     topo = countries;
     draw(topo);
-        drawtable();
+        drawTable("I");
 
   });
 }
@@ -246,48 +316,53 @@ function throttle() {
   }, 200);
 }
 
-function drawtable() 
-{
-  theader = ["Rank", "Country", "Energy Consumption"];
-
-  var table = d3.select("#table").append("table")
-  .attr("class", "tableSorter"),
-  thead = table.append("thead");
-  tbody = table.append("tbody");
-
-  table.append("caption")
-  .html("Global Energy Consumption<br>Yearly Rankings<br>" + energydata[1].name + "<br>" + "1995");
-
-  thead.append("tr").selectAll("th")
-  .data(theader)
-  .enter()
-  .append("th")
-  .text(function(d) { return d; });
 
 
+//drawTable(tableType);
 
-    //   var rows = tbody.selectAll("tr")
-    //   .data(energydata)
-    //   .enter()
-    //   .append("tr");
 
-    //   var paint_zebra_rows = function(rows) {
-    //   rows
-    //     .classed("odd", function(_,i) { return (i % 2) == 0; });
-    // }
+// function drawtable() 
+// {
+//   theader = ["Rank", "Country", "Energy Consumption"];
 
-    // paint_zebra_rows(rows)
+//   var table = d3.select("#table").append("table")
+//   .attr("class", "tableSorter"),
+//   thead = table.append("thead");
+//   tbody = table.append("tbody");
 
-    // var cells = rows.selectAll("td")
-    //   .data(function(row) {
-    //     return d3.range(Object.keys(row).length).map(function(column, i) {
-    //       return row[Object.keys(row)[i]];
-    //       });
-    //     })
-    //   .enter()
-    //   .append("td")
-    //   .text(function(d) { return d; })
-  }
+//   table.append("caption")
+//   .html("Global Energy Consumption<br>Yearly Rankings<br>" + energydata[1].name + "<br>" + "1995");
+
+//   thead.append("tr").selectAll("th")
+//   .data(theader)
+//   .enter()
+//   .append("th")
+//   .text(function(d) { return d; });
+
+
+
+//     //   var rows = tbody.selectAll("tr")
+//     //   .data(energydata)
+//     //   .enter()
+//     //   .append("tr");
+
+//     //   var paint_zebra_rows = function(rows) {
+//     //   rows
+//     //     .classed("odd", function(_,i) { return (i % 2) == 0; });
+//     // }
+
+//     // paint_zebra_rows(rows)
+
+//     // var cells = rows.selectAll("td")
+//     //   .data(function(row) {
+//     //     return d3.range(Object.keys(row).length).map(function(column, i) {
+//     //       return row[Object.keys(row)[i]];
+//     //       });
+//     //     })
+//     //   .enter()
+//     //   .append("td")
+//     //   .text(function(d) { return d; })
+//   }
 
 
    // var x = document.getElementById("combobox");
