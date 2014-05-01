@@ -154,7 +154,7 @@
       };
     }
 
-    var iterations = 8,
+    var iterations = 35,
         projection = d3.geo.albers(),
         properties = function(id) {
           return {};
