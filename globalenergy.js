@@ -12,7 +12,16 @@ var height = width / 2;
 
 var tableType = "B"; 
 // variables needed in various functions
-var topo, projection, path, svg, g;
+var topo, projection, path, svg, g, index, year;
+
+// dropdown element box
+var etype = document.getElementById("combobox");
+
+// constant
+var minConstant = -999999
+
+// variables to control data
+var max = 0, median = 0, min = minConstant;
 
 // setup graticule if we want
 // var graticule = d3.geo.graticule();
@@ -32,32 +41,31 @@ $(function() {
         // console.log(countriesSelection)
 
         countriesSelection
-        .style("fill", function(d, i)
-        {
-        // temporary basic choropleth scale - energy production
-        var etype = document.getElementById("combobox");
-        var index = etype.options[etype.selectedIndex].value;
+        .style("fill", function(d, i) {
+        index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // get the value from the slider
-        var year = ui.value;
+        year = ui.value;
+
+        max = 0, median = 0, min = minConstant;
 
         // console.log(energydata)
         // search for data
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
-          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
-          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
-          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
-        if(countryData != undefined)
+        if(countryData != undefined && countryData != "")
         {
           // set named function for color gradient
           var choropleth = d3.scale.linear()
-          .domain([0, median, max])    
-          .interpolate(d3.interpolateRgb)
-          .range(["green", "white", "red"]);
+            .domain([min-1, 0, median, max])    
+            .interpolate(d3.interpolateRgb)
+            .range(["black", "green", "white", "red"]);
           return choropleth(countryData);
         }
         else
@@ -213,29 +221,29 @@ function draw(topo) {
       //.style("fill", "white")
       .style("fill", function(d, i)
       {
-        // temporary basic choropleth scale - energy production
-        var etype = document.getElementById("combobox");
-        var index = etype.options[etype.selectedIndex].value;
+        index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // initial value of slider
-        var year = 1971;
+        year = 1971;
+
+        max = 0, median = 0, min = minConstant;
 
         // search for data
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
-          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
-          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
-          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
-        if(countryData != undefined)
+        if(countryData != undefined && countryData != "")
         {
           // set named function for color gradient
           var choropleth = d3.scale.linear()
-          .domain([0, median, max])    
+          .domain([min-1, 0, median, max])    
           .interpolate(d3.interpolateRgb)
-          .range(["green", "white", "red"]);
+          .range(["black", "green", "white", "red"]);
           return choropleth(countryData);
         }
         else
@@ -254,9 +262,19 @@ function draw(topo) {
 
     var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
 
-    tooltip.classed("hidden", false)
-    .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-    .html(d.properties.name);
+    if (energydata[index].countries[d.properties.name] == undefined
+        || energydata[index].countries[d.properties.name][year] == undefined
+        || energydata[index].countries[d.properties.name][year] == "") {
+      tooltip.classed("hidden", false)
+        .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+        .html(d.properties.name + ": No Data");
+    }
+    else {
+      tooltip.classed("hidden", false)
+        .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+        .html(d.properties.name + ": " + energydata[index].countries[d.properties.name][year]);
+    }
+
 
   })
   .on("mouseout",  function(d,i) {
@@ -382,29 +400,30 @@ function throttle() {
         .style("fill", function(d, i)
         {
         // temporary basic choropleth scale - energy production
-        var etype = document.getElementById("combobox");
-        var index = etype.options[etype.selectedIndex].value;
+        index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // get the value from the slider
         var year = $('#slider').slider('value');
+
+        max = 0, median = 0, min = minConstant;
 
         // console.log(energydata)
         // search for data
         if (energydata[index].countries[countryName] != undefined)
         {
           var countryData = energydata[index].countries[countryName][year];
-          //var min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != undefined) {return +d[year]}})
-          var max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
-          var median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          min = d3.min(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
+          max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
-        if(countryData != undefined)
+        if(countryData != undefined && countryData != "")
         {
           // set named function for color gradient
           var choropleth = d3.scale.linear()
-          .domain([0, median, max])    
-          .interpolate(d3.interpolateRgb)
-          .range(["green", "white", "red"]);
+            .domain([min-1, 0, median, max])    
+            .interpolate(d3.interpolateRgb)
+            .range(["black", "green", "white", "red"]);
           return choropleth(countryData);
         }
         else
@@ -419,6 +438,7 @@ jQuery(document).ready(function($) {
   CreateGraph('#chart1 svg');
   bootstro.start();
 })
+
 // // on click, log the country data
 // function click() {
 
