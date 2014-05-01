@@ -3,8 +3,8 @@ function CreateGraph(name1, name2) {
 // temp replace series 2
 if (showing){
 
-      //name2 = "United States";
-      var template = [
+  //name2 = "United States";
+  var template = [
   {
     "key" : name1 + " Energy Production" ,
     "bar": true,
@@ -62,7 +62,6 @@ var template = [
   series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
   return series;
 });
-
 var firstserieskeys = d3.keys(energydata[0].countries[name1]);
 var firstseriesvalues = d3.values(energydata[0].countries[name1])
 template[0].values = [];

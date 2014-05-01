@@ -5,14 +5,7 @@
     <script src="libs/d3.v3.min.js"></script>
     <script src="libs/topojson.js"></script>
     <script src="cartogram.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="libs/tsort.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
-    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> 
     <style type="text/css">
-
-
 
       path.state {
         stroke: #666;
@@ -26,31 +19,10 @@
     </style>
   </head>
   <body>
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" style="color:white" href="#">Global Energy Usage</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li ><a href="#">Visualization</a></li>
-            <li class="active"><a href="onemoreattempt.html">Cartogram</a></li>
-            <li><a href="#about">Video</a></li>
-            <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
     <div id="container">
       <h1>Cartograms with d3 &amp; TopoJSON</h1>
         <p>
-          This was our experimental cartogram (area based map).  The math behind it is from this paper.  We used d3.cartogram() which is a public library on github found by a google search here.  There are a couple current issues with the cartogram.  The main part is that the the algorithm doesn't work 100% correctly on our data set because the algorithm is for "continuous area", which is great for contiental United States, but not the world.  Last we checked, North America hasn't been connected to the Europe for around 200 million years.  Thus, we see that any country with value "1" has not disappeared off the map.  However, there is sitll activity (espescially in continental Europe) which does show the principle behind a cartogram area expansion. Please wait for it to work (it is evaluating 240 choose 2 pairwise interactions for 35 iterations).
+          This was our experimental cartogram (area based map).  The math behind it is from this paper.  We used d3.cartogram() which is a public library on github found by a google search here.  There are a couple current issues with the cartogram.  The main part is that the the algorithm doesn't work 100% correctly on our data set because the algorithm is for "continuous area", which is great for contiental United States, but not the world.  Last we checked, North America hasn't been connected to the Europe for around 200 million years.  Thus, we see that any country with value "1" has not disappeared off the map.  However, there is sitll activity (espescially in continental Europe) which does show the principle behind a cartogram area expansion. Please wait for it to work (it is evaluating 240 choose 2 pairwise interactions for 35 iterations) - click on "wait" if an unresponsive thing comes out.
         </p>
       <div id="map-container">
         <svg id="map"></svg>

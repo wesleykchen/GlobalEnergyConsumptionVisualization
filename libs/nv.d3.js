@@ -41,7 +41,8 @@ if (nv.dev) {
 // causes a TypeError to be thrown.
 nv.log = function() {
   if (nv.dev && console.log && console.log.apply)
-    console.log("console")
+    var x = 0; // do nothing
+    //console.log("Bar Graph Updated")
   else if (nv.dev && typeof console.log == "function" && Function.prototype.bind) {
     var log = Function.prototype.bind.call(console.log, console);
     log.apply(console, arguments);
