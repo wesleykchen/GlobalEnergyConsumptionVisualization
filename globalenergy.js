@@ -33,7 +33,8 @@ $(function() {
         .style("fill", function(d, i)
         {
         // temporary basic choropleth scale - energy production
-        index = 25;
+        var etype = document.getElementById("combobox");
+        var index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // get the value from the slider
@@ -109,10 +110,7 @@ function loadMapData() {
     topo = countries;
     draw(topo);
         drawtable();
-        for (var i = 0; i < energydata.length; ++i)
-        {
-          popdropdown(i);
-        }
+
   });
 }
 var countriesSelection;
@@ -289,12 +287,25 @@ function drawtable()
     //   .text(function(d) { return d; })
   }
 
-  function popdropdown (i)
+  function popdropdown ()
   {
-   var x = document.getElementById("combobox");
-   var option = document.createElement("option");
-   option.text = energydata[i].name;
-   x.add(option);
+   // var x = document.getElementById("combobox");
+   // var option = document.createElement("option");
+   // option.text = energydata[i].name;
+   // x.add(option);
+
+   $('#combobox').change(function () {
+    	var selection = this.value; //grab the value selected
+    	console.log(selection);
+    	
+    });
+
+       //$( "#year" ).val( ui.value );
+      //var newValue = ui.value;
+
+        // console.log(countriesSelection)
+
+    
  }
 //tutorial 
 jQuery(document).ready(function($) {
