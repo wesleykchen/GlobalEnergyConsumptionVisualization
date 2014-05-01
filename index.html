@@ -101,6 +101,7 @@
 
   text {
     font: 12px sans-serif;
+
   }
 
   #chart1 svg {
@@ -142,8 +143,8 @@ table td, table th, caption {
 
 table th {
   cursor: s-resize;
-  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
-
+  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2E2929), color-stop(1, #000000) );
+  color: white;
 }
 
 table td:first-child, table td:last-child {
@@ -156,80 +157,20 @@ table tr.odd {
 table .highlight {
   background-color: #F3ED86 !important;
 }
-@import url(http://fonts.googleapis.com/css?family=Capriola);
-/* Let's import the lovely google font, please keep this line at the top of your stylesheet */
-/* Menu CSS */#cssmenu,
-#cssmenu ul,
-#cssmenu ul li,
-#cssmenu ul li a {
-  padding: 0;
-  margin: 0;
-  line-height: 1;
-  font-family: 'Capriola', sans-serif;
-}
-#cssmenu:before,
-#cssmenu:after,
-#cssmenu > ul:before,
-#cssmenu > ul:after {
-  content: '';
-  display: table;
-}
-#cssmenu:after,
-#cssmenu > ul:after {
-  clear: both;
-}
-#cssmenu {
-  zoom: 1;
-  height: 69px;
-  background: url(bottom-bg.png) repeat-x center bottom;
-  border-radius: 2px;
-  width: auto;
-}
-#cssmenu ul {
-  background: url(nav-bg.png) repeat-x 0px 4px;
-  height: 69px;
-}
-#cssmenu ul li {
-  float: left;
-  list-style: none;
-}
-#cssmenu ul li a {
-  display: block;
-  height: 37px;
-  padding: 22px 30px 0;
-  margin: 4px 2px 0;
-  border-radius: 2px 2px 0 0;
-  text-decoration: none;
-  font-size: 15px;
-  color: white;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
-  font-weight: 400;
-  opacity: .9;
-}
-#cssmenu ul li:first-child a {
-  margin: 4px 2px 0 0;
-}
-#cssmenu ul li a:hover,
-#cssmenu ul li.active a {
-  background: url(color.png) center bottom;
-  display: block;
-  height: 37px;
-  margin-top: 0px;
-  padding-top: 26px;
-  color: #9b4106;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
-  opacity: 1;
-}
 
-
-.dropdown {
-  position: relative;
+#combobox {
+  position: center;
   display: inline-block;
+  margin-left: 10px;
 }
 
 .smalltext{
   color: white;
 }
+
+div label {
+  margin-left: 10px;
+} 
 
 
 
@@ -268,9 +209,9 @@ table .highlight {
    <li class='last'><a href='https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing'><span>Process Book </span></a></li>
 </ul>
 </div>
-<p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>
+<p></a>.</p>
 
-<div ="dropdown">
+<div class="dropdown">
   <label>Energy Source: </label>
   <select id="combobox">
 <option value = 0 >Energy production (kt of oil equivalent)</option>
