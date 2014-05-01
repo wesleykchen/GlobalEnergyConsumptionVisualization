@@ -5,9 +5,14 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <!--<link rel=" stylesheet" type="text/css" href="jquery.joyride-2.0.css"> -->
 <link rel="stylesheet" href="css/style.css" type="text/css" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
 
-<title>CS171 Final Project: WC-IS-WC</title>
+<title>CS171 Final Project: WC-MI-WC</title>
 <style>
   .country:hover{
     stroke: #fff;
@@ -222,12 +227,39 @@ table .highlight {
   display: inline-block;
 }
 
+.smalltext{
+  color: white;
+}
+
 
 
 
 </style>
 </head>
 <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="color:white" href="#">Global Energy Usage</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Visualization</a></li>
+            <li><a href="onemoreattempt.html">Cartogram</a></li>
+            <li><a href="#about">Video</a></li>
+            <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
 <div id='cssmenu'>
 <ul>
    <li class='active'><a href='index.html'><span>Visualization</span></a></li>
@@ -236,8 +268,6 @@ table .highlight {
    <li class='last'><a href='https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing'><span>Process Book </span></a></li>
 </ul>
 </div>
-<h1>Global Energy Usage by Country since 1971</h1>
-<h3>CS171 Final Project - WC IS WC </h3>
 <p>Click and drag to pan, scroll to zoom. Click each country to see bar/line graph of energy consumption. Current data is set to Energy per GDP per capita in 1985.</a>.</p>
 
 <div ="dropdown">
@@ -265,6 +295,8 @@ table .highlight {
 <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
 <script src="cartogram.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
