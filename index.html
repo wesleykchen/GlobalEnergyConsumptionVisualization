@@ -11,6 +11,9 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
+<link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+
+
 
 <title>CS171 Final Project: WC-MI-WC</title>
 <style>
@@ -194,21 +197,13 @@ div label {
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Visualization</a></li>
             <li><a href="onemoreattempt.html">Cartogram</a></li>
-            <li><a href="#about">Video</a></li>
+            <li><a href="http://www.youtube.com/watch?v=kh29_SERH0Y" rel="prettyPhoto">Video</a></li>
             <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
-<div id='cssmenu'>
-<ul>
-   <li class='active'><a href='index.html'><span>Visualization</span></a></li>
-   <li><a href='oneMoreAttempt.html'><span>Cartogram</span></a></li>
-   <li><a href='#'><span>Video</span></a></li>
-   <li class='last'><a href='https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing'><span>Process Book </span></a></li>
-</ul>
-</div>
 <p></a>.</p>
 
 <div class="dropdown">
@@ -261,6 +256,7 @@ div label {
 <script src="libs/tsort.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
+<script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 <script src="cartogram.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -287,6 +283,11 @@ div label {
       });
 </script>
 
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("a[rel^='prettyPhoto']").prettyPhoto();
+  });
+</script>
 
 </body>
 </html>
