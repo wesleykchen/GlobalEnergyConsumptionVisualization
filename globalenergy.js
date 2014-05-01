@@ -10,7 +10,10 @@ var width = document.getElementById('container').offsetWidth;
 var height = width / 2;
 
 // variables needed in various functions
-var topo, projection, path, svg, g;
+var topo, projection, path, svg, g, index, year;
+
+// dropdown element box
+var etype = document.getElementById("combobox");
 
 // setup graticule if we want
 // var graticule = d3.geo.graticule();
@@ -30,15 +33,12 @@ $(function() {
         // console.log(countriesSelection)
 
         countriesSelection
-        .style("fill", function(d, i)
-        {
-        // temporary basic choropleth scale - energy production
-        var etype = document.getElementById("combobox");
-        var index = etype.options[etype.selectedIndex].value;
+        .style("fill", function(d, i) {
+        index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // get the value from the slider
-        var year = ui.value;
+        year = ui.value;
 
         // console.log(energydata)
         // search for data
@@ -143,13 +143,11 @@ function draw(topo) {
       //.style("fill", "white")
       .style("fill", function(d, i)
       {
-        // temporary basic choropleth scale - energy production
-        var etype = document.getElementById("combobox");
-        var index = etype.options[etype.selectedIndex].value;
+        index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
         // initial value of slider
-        var year = 1971;
+        year = 1971;
 
         // search for data
         if (energydata[index].countries[countryName] != undefined)
@@ -184,9 +182,19 @@ function draw(topo) {
 
     var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
 
-    tooltip.classed("hidden", false)
-    .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-    .html(d.properties.name);
+    if (energydata[index].countries[d.properties.name] == undefined
+        || energydata[index].countries[d.properties.name][year] == undefined
+        || energydata[index].countries[d.properties.name][year] == "") {
+      tooltip.classed("hidden", false)
+        .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+        .html(d.properties.name + ": No Data");
+    }
+    else {
+      tooltip.classed("hidden", false)
+        .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+        .html(d.properties.name + ": " + energydata[index].countries[d.properties.name][year]);
+    }
+
 
   })
   .on("mouseout",  function(d,i) {
@@ -344,6 +352,7 @@ jQuery(document).ready(function($) {
   CreateGraph('#chart1 svg');
   bootstro.start();
 })
+
 // // on click, log the country data
 // function click() {
 
