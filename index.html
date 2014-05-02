@@ -1,69 +1,275 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+<link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 
-    <title>Globalenergyconsumptionvisualization by itsWezzles</title>
-  </head>
 
-  <body>
 
-    <header>
+<title>CS171 Final Project: WC-MI-WC</title>
+<style>
+  .country:hover{
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+
+  h1 {
+    font-family: Aldrich ;
+    line-height: 1em;
+    color: orange;
+    font-size: 51px;
+    text-shadow:0px 0px 0 rgb(159,159,159),1px 0px 0 rgb(144,144,144),2px 0px 0 rgb(130,130,130),3px 0px 0 rgb(115,115,115),4px 0px 0 rgb(101,101,101),5px 0px 0 rgb(86,86,86), 6px 0px 0 rgb(72,72,72),7px 0px 6px rgba(0,0,0,1),7px 0px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+    text-align: center;
+
+  }
+  .text{
+    font-size:10px;
+    text-transform:capitalize;
+  }
+  #container {
+    margin:10px 10%;
+    border:2px solid #000;
+    border-radius: 5px;
+    height:500px;
+    overflow:hidden;
+    background: #BFEFFF;
+    margin-top: 30px;
+  }
+
+  #year {
+
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  #slider {
+
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .hidden { 
+    display: none; 
+  }
+  div.tooltip {
+    color: #222; 
+    background: #fff; 
+    padding: .5em; 
+    text-shadow: #f5f5f5 0 1px 0;
+    border-radius: 2px; 
+    box-shadow: 0px 0px 2px 0px #a6a6a6; 
+    opacity: 0.9; 
+    position: absolute;
+  }
+  .graticule {
+    fill: none;
+    stroke: #bbb;
+    stroke-width: .5px;
+    stroke-opacity: .5;
+  }
+  .equator {
+    stroke: #fff;
+    stroke-width: 1px;
+  }
+  body {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+  body {
+    overflow-x:scroll;
+  }
+
+  text {
+    font: 12px sans-serif;
+
+  }
+
+  #chart1 svg {
+    height: 330px;
+    margin: 10px;
+    width: 700px;
+    min-width: 100px;
+    min-height: 200px;
+    display:block;
+    float:left;
+}
+
+#rankTable {
+  position: absolute;
+  float: right;
+  margin-top:0px;
+  margin-right:10px; 
+  margin-left: 775px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+    border-collapse: collapse;
+
+}
+
+#newspaper-a {
+  border-collapse: collapse;
+}
+
+#rankTable td, #rankTable th, caption {
+  padding: 10px;
+  border: 1px solid gray;
+  width: 140px;
+  margin-left: 20px;
+}
+
+#rankTable th {
+  cursor: s-resize;
+  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2E2929), color-stop(1, #000000) );
+  color: white;
+}
+
+#combobox {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.smalltext{
+  color: white;
+}
+
+div label {
+  margin-left: 100px;
+} 
+
+</style>
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-step="1" data-intro="Welcome! The visualizations presented on this page are meant to provide you with a better understanding of how different sources of energy are varied in their use around the world. You have the options to scan across three decades of data and see multiple types of energy sources, along with multiple formats of energy quantification. Enjoy!">
       <div class="container">
-        <h1>Globalenergyconsumptionvisualization</h1>
-        <h2>CS171 Final Project</h2>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="color:white" href="#">Global Energy Usage</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Visualization</a></li>
+            <li data-step="7" data-intro="An experimental feature we developed was the cartogram -- a swelled area map. More notes are provided on the link."><a href="WorldCartogram.html">Cartogram</a></li>
+            <li><a href="http://www.youtube.com/watch?v=kh29_SERH0Y" rel="prettyPhoto">Video</a></li>
+            <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
+            <li><a href="references.html">References</a></li>
 
-        <section id="downloads">
-          <a href="https://github.com/itsWezzles/GlobalEnergyConsumptionVisualization/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/itsWezzles/GlobalEnergyConsumptionVisualization/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/itsWezzles/GlobalEnergyConsumptionVisualization" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h1>
-<a name="global-energy-visualization" class="anchor" href="#global-energy-visualization"><span class="octicon octicon-link"></span></a>Global Energy Visualization</h1>
-
-<h2>
-<a name="cs171-final-project---spring-2014" class="anchor" href="#cs171-final-project---spring-2014"><span class="octicon octicon-link"></span></a>CS171 Final Project - Spring 2014</h2>
-
-<h2>
-<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h2>
-
-<p>By: Wesley Chen (<a href="https://github.com/itsWezzles" class="user-mention">@itsWezzles</a>), Wahaj Chaudhry (<a href="https://github.com/wchaudhry8471" class="user-mention">@wchaudhry8471</a>) and Muhammad Ibrahim (<a href="https://github.com/0ibrahim" class="user-mention">@0ibrahim</a>).</p>
-
-<h3>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h3>
-
-<p>Intro.js Tutorial</p>
-
-<p>Interactive World Map with pan and zoom</p>
-
-<p>Dynamic value-based Coloring</p>
-
-<p>Stacked bar and line graph on click</p>
-
-<p>"Country: value" tooltip on hover</p>
-
-<p>Dropdown menu to select energy source</p>
-
-<p>Slider to select year</p>
-
-<p>Dynamic Table highlighting top 10 countries</p>
-
-<p>Bootstrap html design</p>
-
-<p>Area-based cartogram for 1971 vs 2007 Data</p>
-      </section>
     </div>
+<br> </br>
 
-    
-  </body>
+
+
+
+
+
+<div id="container" data-step = '2' data-intro="This is our main world overview where you can scroll-zoom and pan on an country (not oceans) as you like. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
+<div class="dropdown" data-step = '4' data-intro="This is a dropdown menu to select different energy measurements, from coal, to energy, to nuclear. Updating teh dropdown will refresh both the world map and the bar graph below. Note some selections will have negative values such as any GDP adjusted ones. Black shades represent negative values for those respective values." data-position="top">
+  <label>Energy Source: </label>
+  <select id="combobox">
+<option value = 0 >Energy production (kt of oil equivalent)</option>
+<option value = 1 >Electricity production from coal sources (kWh)</option>
+<option value = 2 >Electricity production from coal sources (% of total)</option>
+<option value = 3 >Electricity production from hydroelectric sources (kWh)</option>
+<option value = 4 >Electricity production from hydroelectric sources (% of total)</option>
+<option value = 5 >Electric power transmission and distribution losses (kWh)</option>
+<option value = 6 >Electric power transmission and distribution losses (% of output)</option>
+<option value = 7 >Electricity production from natural gas sources (kWh)</option>
+<option value = 8 >Electricity production from natural gas sources (% of total)</option>
+<option value = 9 >Electricity production from nuclear sources (kWh)</option>
+<option value = 10 >Electricity production from nuclear sources (% of total)</option>
+<option value = 11 >Electricity production from oil sources (kWh)</option>
+<option value = 12 >Electricity production from oil sources (% of total)</option>
+<option value = 13 >Electricity production (kWh)</option>
+<option value = 14 >GDP per unit of energy use (PPP $ per kg of oil equivalent)</option>
+<option value = 15 >GDP per unit of energy use (constant 2005 PPP $ per kg of oil equivalent)</option>
+<option value = 16 >Energy imports, net (% of energy use)</option>
+<option value = 17 >Alternative and nuclear energy (% of total energy use)</option>
+<option value = 18 >Fossil fuel energy consumption (% of total)</option>
+<option value = 19 >Energy use (kg of oil equivalent) per $1,000 GDP (constant 2005 PPP)</option>
+<option value = 20 >Energy use (kt of oil equivalent)</option>
+<option value = 21 >Combustible renewables and waste (metric tons of oil equivalent)</option>
+<option value = 22 >Combustible renewables and waste (% of total energy)</option>
+<option value = 23 >Electric power consumption (kWh)</option>
+<option value = 24 >Electric power consumption (kWh per capita)</option>
+<option value = 25>Energy use (kg of oil equivalent per capita)</option>
+</select>
+</div>
+<input type="text" id="year" style="border:0; color:#000000; font-weight:bold;">
+<div id="slider" data-step = '5' data-intro="This controls the year between 1971 and 2007. he world map will adjust dynamically." data-position='top'></div>
+<div id="chart1" class='with-3d-shadow with-transitions' data-step="3" data-intro="This is a bar-line graph where the blue bars are the values of our energy source over our time span. The orange line is a fixed comparison to the United States. Note the right line graph axis is not zeroed to best show variation over time, but the bar graph is. The purpose of this is to see the relative difference for country compared to a difference in the event for the United States--to help detect possible global trends." data-position="top">
+  <svg> </svg>
+</div>
+<input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
+<div id="slider"></div>
+<div id="chart1" class='with-3d-shadow with-transitions'>
+  <svg class="bootstro" data-bootstro-content="Test"> </svg>
+</div>
+<div id="rankTable" data-step="6" data-intro="The table highlights the top ten nations for each respective energy source."></div>
+
+<script src="libs/d3.v3.min.js"></script>
+<script src="libs/topojson.v1.min.js"></script>
+<script src="libs/nv.d3.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
+<script src="libs/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+<script src="cartogram.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="libs/intro.js"></script>
+<link href="css/introjs.css" rel="stylesheet">
+<script type = "text/javascript">
+    // declare global energydata for between files
+    var energydata;
+  </script>
+    <script type = "text/javascript" src="globalenergy.js"></script>
+  <script type = "text/javascript" src="energygraph.js"></script>
+
+
+  <script>
+    $(document).ready(function() {
+      $('table.tableSorter').tableSort();}
+</script>
+
+<script>
+introJs().start();
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("a[rel^='prettyPhoto']").prettyPhoto();
+  });
+</script>
+<script src="libs/tsort.min.js"></script>
+
+</body>
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="libs/FileSaver.js"></script>
+
+<div id="vis"></div>
+
+<script>
+
+
+    d3.json("../data/world_data.json",function(error,data){
+
+        // final data structure for answer
+        var countrylist = [];
+
+        //parse by ID
+        for (var countryID in data.objects.countries.geometries) {
+            countrylist.push(data.objects.countries.geometries[countryID].properties.name);
+        }
+
+        // save file below function
+        saveToFile(countrylist,"worldDataCountryNames.csv")
+
+    })
+
+    /* takes an array of strings
+       and writes them line by line into a file given by filename
+     */
+    var saveToFile = function(arrayOfLines, fileName) {
+       /* adds linebreaks at the end*/
+       var blob, blobText;
+       blobText = arrayOfLines.map(function(d) {
+         if (d.endsWith("\n")) {
+           return d;
+         } else {
+           return d + "\n";
+         }
+       });
+       blob = new Blob(blobText, {
+         type: "text/plain;charset=utf-8"
+       });
+       return saveAs(blob, fileName);
+     };
+
+     String.prototype.endsWith = function(suffix) {
+       return this.indexOf(suffix, this.length - suffix.length) !== -1;
+     };
+
+</script>
+
+</body>
+</html>
