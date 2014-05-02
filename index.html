@@ -114,41 +114,30 @@
 }
 
 #rankTable {
-  border-collapse: collapse;
-  position: absolute
+  position: absolute;
   float: right;
   margin-top:0px;
-  margin-right:100px; 
+  margin-right:10px; 
+  margin-left: 900px;
   border-radius: 20px;
-  margin-left: 100px;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
+    border-collapse: collapse;
+
 }
 
-#rankTable thead {
-  font-weight: bold;
-}
 
 #rankTable td, #rankTable th, caption {
-  padding: 3px;
+  padding: 10px;
   border: 1px solid gray;
+  width: 140px;
+  margin-left: 20px;
 }
 
 #rankTable th {
   cursor: s-resize;
   background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2E2929), color-stop(1, #000000) );
   color: white;
-}
-
-#rankTable td:first-child, #rankTable td:last-child {
-  text-align: center;
-}
-
-#rankTable tr.odd {
-  background-color: #EEE;
-}
-#rankTable .highlight {
-  background-color: #F3ED86 !important;
 }
 
 #combobox {
@@ -240,10 +229,7 @@ div label {
 <div id="chart1" class='with-3d-shadow with-transitions'>
   <svg class="bootstro" data-bootstro-content="Test"> </svg>
 </div>
-<div id="rankTable"></div>
-
-<div id="table" data-step="6" data-intro="The table highlights the top ten nations for each respective energy source."></div>
-
+<div id="rankTable" data-step="6" data-intro="The table highlights the top ten nations for each respective energy source."></div>
 
 <script src="libs/d3.v3.min.js"></script>
 <script src="libs/topojson.v1.min.js"></script>
