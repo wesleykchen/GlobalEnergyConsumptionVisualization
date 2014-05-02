@@ -4,6 +4,14 @@
 ## Authors
 By: Wesley Chen (@itsWezzles), Wahaj Chaudhry (@wchaudhry8471) and Muhammad Ibrahim (@0ibrahim).
 
+## Screencast Video
+http://youtu.be/wfYGd15RTDo
+
+## URL
+http://itswezzles.github.io/GlobalEnergyConsumptionVisualization/
+
+(to access the worldCartogram.html, run locally - github pages only allows one hosted page - we think)
+
 ### Features
 
 Intro.js Tutorial

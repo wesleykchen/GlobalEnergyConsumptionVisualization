@@ -148,6 +148,45 @@
   margin-left: 10px;
 }
 
+ #legend {
+    position: relative;
+  float: right;
+  margin-top:60px;
+  margin-right:10px; 
+  margin-left: 105px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+    border-collapse: collapse;
+    
+  border: 1px solid gray;
+  width: 70px;
+  margin-left: 20px;
+}
+
+#legend .min {
+  background-color: black;
+  color:white;
+}
+#legend .zero {
+  background-color: green;
+  color:white;
+}
+#legend .median {
+  background-color: white;
+  color:black;
+}
+#legend .max {
+  background-color: red;
+  color:white;
+}
+#legend .nodata {
+  background-color: gray;
+  color:white;
+}
+
+
+
 .smalltext{
   color: white;
 }
@@ -160,8 +199,9 @@ div label {
 </head>
 <body>
 
+
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-step="1" data-intro="Welcome! The visualizations presented on this page are meant to provide you with a better understanding of how different sources of energy are varied in their use around the world. You have the options to scan across three decades of data and see multiple types of energy sources, along with multiple formats of energy quantification. Enjoy!">
-      <div class="container">
+      <div class="wordcontainer">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -175,7 +215,7 @@ div label {
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Visualization</a></li>
             <li data-step="7" data-intro="An experimental feature we developed was the cartogram -- a swelled area map. More notes are provided on the link."><a href="WorldCartogram.html">Cartogram</a></li>
-            <li><a href="http://www.youtube.com/watch?v=kh29_SERH0Y" rel="prettyPhoto">Video</a></li>
+            <li><a href="http://youtu.be/wfYGd15RTDo" rel="prettyPhoto">Video</a></li>
             <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
             <li><a href="references.html">References</a></li>
 
@@ -183,14 +223,35 @@ div label {
         </div><!--/.nav-collapse -->
       </div>
     </div>
+
+    <table id ="legend">
+    <tr> 
+        <td> <p style: {text-color: black}>Legend: </p></td>
+    </tr>
+    <tr>
+        <td class="min">Minimum</td>
+    </tr>
+    <tr>
+        <td class="zero">0</td>
+    </tr>
+    <tr>
+        <td class="median">Median</td>
+    </tr>
+     <tr>
+        <td class="max">Maximum</td>
+     </tr>
+     <tr>
+        <td class="nodata">No Data</td>
+     </tr>    
+</table> 
 <br> </br>
+<div id="container" data-step = '2' data-intro="This is our main world overview where you can scroll-zoom and pan on an country (not oceans) as you like. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below.">
+
+</div>
 
 
 
 
-
-
-<div id="container" data-step = '2' data-intro="This is our main world overview where you can scroll-zoom and pan on an country (not oceans) as you like. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
 <div class="dropdown" data-step = '4' data-intro="This is a dropdown menu to select different energy measurements, from coal, to energy, to nuclear. Updating teh dropdown will refresh both the world map and the bar graph below. Note some selections will have negative values such as any GDP adjusted ones. Black shades represent negative values for those respective values." data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
