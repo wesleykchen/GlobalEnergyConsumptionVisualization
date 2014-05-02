@@ -117,7 +117,7 @@ d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
 });
 
 function generateTableData() {
-  console.log(energydata)
+  //console.log(energydata)
   newArray = []
   for (var country in energydata[presentCategory].countries){
     var newCountry = energydata[presentCategory].countries[country]
@@ -163,10 +163,6 @@ function generateTableData() {
 function drawTable(checked) {
           var listByType;
           var header;
-
-          for (var energy in energydata){
-            console.log(energydata[energy])
-          }
           // if (checked == "I") {
           listByType = generateTableData()
           header = "Energy Usage"
@@ -434,13 +430,11 @@ function throttle() {
 
    $('#combobox').change(function () {
     var selection = this.value; //grab the value selected
-    console.log(selection);
+    //console.log(selection);
 
-<<<<<<< HEAD
         var newValue = $('#slider').slider('value');
-=======
-        var newValue = $('#slider').slider('value');;
->>>>>>> c10bb21d97bef0eb2b4fc345a30c885aa9260f9b
+        var presentCategory = index;
+        drawTable("I");
 
         // console.log(countriesSelection)
 
@@ -449,13 +443,12 @@ function throttle() {
         {
         // temporary basic choropleth scale - energy production
         index = etype.options[etype.selectedIndex].value;
-        var presentCategory = index;
+        
         var countryName = d.properties.name;
 
         // get the value from the slider
         year = $('#slider').slider('value');
 
-        drawTable("I");
         max = 0, median = 0, min = minConstant;
 
         // console.log(energydata)
