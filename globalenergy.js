@@ -43,7 +43,7 @@ $(function() {
     slide: function( event, ui ) {
       $( "#year" ).val( ui.value );
       var newValue = ui.value;
-      var presentYear = ui.value;
+      presentYear = ui.value;
 
 
       countriesSelection
@@ -66,7 +66,7 @@ $(function() {
           max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
 
-        drawTable("I");
+        
 
         if(countryData != undefined && countryData != "")
         {
@@ -82,6 +82,7 @@ $(function() {
           return "#CACACA";
         }
       });
+    drawTable("I");
     }
   });
 });
@@ -175,6 +176,8 @@ function drawTable(checked) {
           //   listByType = generateTableData().sort(compareByBalance).reverse();
           //   header = "Net Balance";
           // }
+
+          console.log(presentYear, presentCategory, "HISHD")
             var table ="<table id=\"newspaper-a\" class = \"tableSorter\" summary=\"Top Ranked Countries\">";
             var row = 0;
             table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">" + header+ "</th></tr></thead><tbody><tr>"
@@ -433,7 +436,7 @@ function throttle() {
     //console.log(selection);
 
         var newValue = $('#slider').slider('value');
-        var presentCategory = index;
+        presentCategory = index;
         drawTable("I");
 
         // console.log(countriesSelection)

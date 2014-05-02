@@ -113,42 +113,41 @@
     float:left;
 }
 
-table {
+#rankTable {
   border-collapse: collapse;
-  position: relative;
-  height: 286px;
-  width: 400px;
+  position: absolute
   float: right;
-  margin-top:30px;
+  margin-top:0px;
   margin-right:100px; 
   border-radius: 20px;
+  margin-left: 100px;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
 }
 
-thead {
+#rankTable thead {
   font-weight: bold;
 }
 
-table td, table th, caption {
+#rankTable td, #rankTable th, caption {
   padding: 3px;
   border: 1px solid gray;
 }
 
-table th {
+#rankTable th {
   cursor: s-resize;
   background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2E2929), color-stop(1, #000000) );
   color: white;
 }
 
-table td:first-child, table td:last-child {
+#rankTable td:first-child, #rankTable td:last-child {
   text-align: center;
 }
 
-table tr.odd {
+#rankTable tr.odd {
   background-color: #EEE;
 }
-table .highlight {
+#rankTable .highlight {
   background-color: #F3ED86 !important;
 }
 
