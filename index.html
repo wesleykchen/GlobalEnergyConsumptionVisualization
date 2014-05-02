@@ -191,7 +191,7 @@ div label {
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Visualization</a></li>
-            <li><a href="WorldCartogram.html">Cartogram</a></li>
+            <li data-step="7" data-intro="An experimental feature we developed was the cartogram -- a swelled area map. More notes are provided on the link."><a href="WorldCartogram.html">Cartogram</a></li>
             <li><a href="http://www.youtube.com/watch?v=kh29_SERH0Y" rel="prettyPhoto">Video</a></li>
             <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
           </ul>
@@ -205,8 +205,8 @@ div label {
 
 
 
-<div id="container" data-step = '2' data-intro="World Map Displaying Various sources of Energy"></div>
-<div class="dropdown" data-step = '3' data-intro="Select one of the energy sources with respect either to total amount used per anum or with respect to GDP" data-position="top">
+<div id="container" data-step = '2' data-intro="This is our main world overview. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
+<div class="dropdown" data-step = '4' data-intro="This is a dropdown menu to select different energy measurements, from coal, to energy, to nuclear. Updating teh dropdown will refresh both the world map and the bar graph below. Note some selections will have negative values such as any GDP adjusted ones. Black shades represent negative values for those respective values." data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
 <option value = 0 >Energy production (kt of oil equivalent)</option>
@@ -238,11 +238,11 @@ div label {
 </select>
 </div>
 <input type="text" id="year" style="border:0; color:#000000; font-weight:bold;">
-<div id="slider" data-step = '4' data-intro="Select a year to view the energy parameters for the respective year" data-position='top'></div>
-<div id="chart1" class='with-3d-shadow with-transitions' data-step="5" data-intro="The bar graph varies with the country that is selected and it can be compared to the relative levels of the United States, as depicted by the line graph." data-position="top">
+<div id="slider" data-step = '5' data-intro="This controls the year between 1971 and 2007. he world map will adjust dynamically." data-position='top'></div>
+<div id="chart1" class='with-3d-shadow with-transitions' data-step="3" data-intro="This is a bar-line graph where the blue bars are the values of our energy source over our time span. The orange line is a fixed comparison to the United States. Note the right line graph axis is not zeroed to best show variation over time, but the bar graph is. The purpose of this is to see the relative difference for country compared to a difference in the event for the United States--to help detect possible global trends." data-position="top">
   <svg class="bootstro" data-bootstro-content="Test" > </svg>
 </div>
-<div id="table"></div>
+<div id="table" data-step="6" data-intro="The table highlights the top ten nations for each respective energy source."></div>
 
 <script src="libs/d3.v3.min.js"></script>
 <script src="libs/topojson.v1.min.js"></script>
