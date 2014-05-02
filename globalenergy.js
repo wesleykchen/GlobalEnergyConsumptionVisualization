@@ -23,6 +23,9 @@ var minConstant = -999999
 // variables to control data
 var max = 0, median = 0, min = minConstant;
 
+var presentYear = 1971;
+var presentCategory = 0;
+
 // setup graticule if we want
 // var graticule = d3.geo.graticule();
 
@@ -37,6 +40,7 @@ $(function() {
     slide: function( event, ui ) {
       $( "#year" ).val( ui.value );
       var newValue = ui.value;
+      var presentYear = ui.value;
 
         // console.log(countriesSelection)
 
@@ -59,6 +63,9 @@ $(function() {
           median = d3.median(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
           max = d3.max(d3.values(energydata[index].countries), function(d) {if(d[year] != 0 && d[year] != "" && d[year] != undefined) {return +d[year]}})
         }
+
+        drawTable("I");
+
         if(countryData != undefined && countryData != "")
         {
           // set named function for color gradient
@@ -113,6 +120,45 @@ d3.json("data/globalenergyuse-cleaned.json", function(error, data) {
 
 function generateTableData() {
   console.log(energydata)
+  newArray = []
+  for (var country in energydata[presentCategory].countries){
+    var newCountry = energydata[presentCategory].countries[country]
+    //console.log(newCountry, "country")
+    newArray.push({country: country, value: newCountry[presentYear]})
+  }
+  //console.log(newArray)
+  var sortable = [];
+  for (var newObject in newArray){
+    newObject1 = newArray[newObject]
+    //console.log(newObject1)  
+    sortable.push([newObject1["country"], newObject1["value"]])
+  }
+  sortable.sort(function(a, b) {return b[1] - a[1]})
+  var sorted = []
+  console.log(sortable, "mysortable")
+  var count = 0
+  var index = 0
+  while (index < sortable.length && count < 10){
+    var contains = false;
+    var keywords = ["Asia", "Euro", "income", "poor", "America", "countries", "Africa", "World"]
+    keywords.forEach(function(word){
+      var newString = sortable[index][0];
+      if (newString.indexOf(word) > -1){
+        contains = true;
+      }
+    })
+    if (sortable[index][1] === "" || contains){
+        console.log("nothing")
+    }else{
+      var newWord = sortable[index][1]
+      sorted.push([sortable[index][0], newWord])
+      count += 1;
+    }
+    index += 1
+    //console.log(count)
+  }
+  return sorted
+  //console.log(sorted)
 }
 
 
@@ -120,9 +166,12 @@ function drawTable(checked) {
           var listByType;
           var header;
 
+          for (var energy in energydata){
+            console.log(energydata[energy])
+          }
           // if (checked == "I") {
-          listByType = generateTableData().sort(compareByImports).reverse();
-          header = "Imports"
+          listByType = generateTableData()
+          header = "Energy Usage"
           // }
           // else if (checked == "E") {
           //   listByType = generateTableData().sort(compareByExports).reverse();
@@ -132,40 +181,30 @@ function drawTable(checked) {
           //   listByType = generateTableData().sort(compareByBalance).reverse();
           //   header = "Net Balance";
           // }
-            var table ="<table id=\"newspaper-a\" class = \"rankedList\" summary=\"Top Ranked Countries\">";
+            var table ="<table id=\"newspaper-a\" class = \"tableSorter\" summary=\"Top Ranked Countries\">";
             var row = 0;
             table += "<thead><tr><th scope=\"col\">Rank</th><th scope=\"col\">Country</th><th scope=\"col\">" + header+ "</th></tr></thead><tbody><tr>"
             for (var row = 1; row <= 10; row++) {
             table += "</tr><tr>";
             var nextCountry = listByType.shift();
 
-            try {
-              var countryCode = getCountryName(nextCountry[0]);
-            }
-            catch(err) {
-              if (nextCountry[0] == "SG") {
-                var countryCode = "Singapore"
-              }
-              else if (nextCountry[0] == "HK") {
-                var countryCode = "Hong Kong"
-              }
-              else {
-                var countryCode = nextCountry[0];
-              }
-            }
+          
+            var countryCode = nextCountry[0];
+            
+            
             var val;
-            if (checked == "I") {
-              val = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
-            }
-            else if (checked == "E") {
-              val = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
-            }
-            else {
-              val = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
-            }
-            var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
-            var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
-            var balanceval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
+            // if (checked == "I") {
+            //   val = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+            // }
+            // else if (checked == "E") {
+            //   val = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+            // }
+            // else {
+              val = Math.round(nextCountry[1]) + " kWh";
+            // }
+            // var importval = "$" + Math.round(nextCountry[1]["I"]) + " mil USD";
+            // var exportval = "$" + Math.round(nextCountry[1]["E"]) + " mil USD";
+            // var balanceval = "$" + Math.round(nextCountry[1]["B"]) + " mil USD";
 
             table += "<td>" + row + "</td>";
             table += "<td>" + countryCode + "</td>";
@@ -173,8 +212,9 @@ function drawTable(checked) {
           }
 
           table += "</tr></tbody></table>";
-          $(tablecontainer).html(table);
-          $('table.rankedList').tableSort( {
+          console.log(table)
+          $('#rankTable').html(table);
+          $('#newspaper-a').tableSort( {
             sortBy: ['numeric', 'text', 'numeric']
           });
         }
@@ -392,7 +432,7 @@ function throttle() {
     var selection = this.value; //grab the value selected
     console.log(selection);
 
-          var newValue = $('#slider').slider('value');;
+        var newValue = $('#slider').slider('value');
 
         // console.log(countriesSelection)
 
@@ -401,11 +441,13 @@ function throttle() {
         {
         // temporary basic choropleth scale - energy production
         index = etype.options[etype.selectedIndex].value;
+        var presentCategory = index;
         var countryName = d.properties.name;
 
         // get the value from the slider
         var year = $('#slider').slider('value');
 
+        drawTable("I");
         max = 0, median = 0, min = minConstant;
 
         // console.log(energydata)
