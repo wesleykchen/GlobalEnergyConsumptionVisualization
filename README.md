@@ -1,5 +1,5 @@
-# Global Energy Visualization - CS171 Final Project
-## Spring 2014
+# Global Energy Visualization 
+## CS171 Final Project - Spring 2014
 
 ## Authors
 By: Wesley Chen (@itsWezzles), Wahaj Chaudhry (@wchaudhry8471) and Muhammad Ibrahim (@0ibrahim).
