@@ -1,8 +1,7 @@
-# Global Energy Visualization - CS171 
+# Global Energy Visualization - CS171 Final Project
+## Spring 2014
 
-
-## Authors and Contributors
-Spring 2014
+## Authors
 By: Wesley Chen (@itsWezzles), Wahaj Chaudhry (@wchaudhry8471) and Muhammad Ibrahim (@0ibrahim).
 
 ### Features
