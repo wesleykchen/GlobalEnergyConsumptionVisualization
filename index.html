@@ -3,14 +3,9 @@
 
 <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<!--<link rel=" stylesheet" type="text/css" href="jquery.joyride-2.0.css"> -->
 <link rel="stylesheet" href="css/style.css" type="text/css" />
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
-<!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
 <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 
 
@@ -39,7 +34,7 @@
     margin:10px 10%;
     border:2px solid #000;
     border-radius: 5px;
-    height:400px;
+    height:550px;
     overflow:hidden;
     background: #BFEFFF;
     margin-top: 30px;
@@ -109,7 +104,7 @@
   }
 
   #chart1 svg {
-    height: 240px;
+    height: 330px;
     margin: 10px;
     width:700px;
     min-width: 100px;
@@ -170,9 +165,6 @@ div label {
   margin-left: 100px;
 } 
 
-
-
-
 </style>
 </head>
 <body>
@@ -205,7 +197,7 @@ div label {
 
 
 
-<div id="container" data-step = '2' data-intro="This is our main world overview. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
+<div id="container" data-step = '2' data-intro="This is our main world overview where you can scroll-zoom and pan on an country (not oceans) as you like. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
 <div class="dropdown" data-step = '4' data-intro="This is a dropdown menu to select different energy measurements, from coal, to energy, to nuclear. Updating teh dropdown will refresh both the world map and the bar graph below. Note some selections will have negative values such as any GDP adjusted ones. Black shades represent negative values for those respective values." data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
