@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Minimal Cartogram</title>
+    <title>World Energy Cartogram</title>
     <script src="libs/d3.v3.min.js"></script>
     <script src="libs/topojson.js"></script>
     <script src="cartogram.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
     <style type="text/css">
 
       path.state {
@@ -19,12 +21,23 @@
     </style>
   </head>
   <body>
+
+    <div>
+      <a href="index.html">Main Visualization </a>
+    </div>
+
     <div id="container">
-      <h1>Cartograms with d3 &amp; TopoJSON</h1>
+      <h1>World Energy Consumption Cartogram 1971 vs. 2007</h1>
         <p>
-          This was our experimental cartogram (area based map).  The math behind it is from this paper.  We used d3.cartogram() which is a public library on github found by a google search here.  There are a couple current issues with the cartogram.  The main part is that the the algorithm doesn't work 100% correctly on our data set because the algorithm is for "continuous area", which is great for contiental United States, but not the world.  Last we checked, North America hasn't been connected to the Europe for around 200 million years.  Thus, we see that any country with value "1" has not disappeared off the map.  However, there is sitll activity (espescially in continental Europe) which does show the principle behind a cartogram area expansion. Please wait for it to work (it is evaluating 240 choose 2 pairwise interactions for 35 iterations) - click on "wait" if an unresponsive thing comes out.
+          This is our experimental cartogram (area-swelled based map).  The math behind it is from this paper <a href = "http://lambert.nico.free.fr/tp/biblio/Dougeniketal1985.pdf">here</a>.  We used d3.cartogram() which is a public library on github found by a google search <a href= "http://prag.ma/code/d3-cartogram/" >here</a>.  The main issue stems from the fact that the the algorithm doesn't work 100% correctly on our data set because the algorithm is for "continuous area", which is great for contiental United States, but not the world.  Last we checked, North America hasn't been connected to the Europe for around 200 million years.  Thus, we see that any country with no data and small values has not disappeared off the map.  However, there is still activity (espescially in continental Europe) which does show the principle behind a cartogram area expansion.
         </p>
-      <div id="map-container">
+        <p>
+          Due to the heavy mathematical computation involved, this may take some time - 30 seconds to 1 minute!
+        </p>
+        <p>
+          The initial page load will be the 1971 data for total energy consumption and after clicking anywhere on the map, the data will toggle to 2007 and then back.  The tooltips are still mouseover and the country coloring is from white to red, with red being the max.  Pay attention to Europe as those countries are small but have high consumption (and post USSR Russia)!  The console will log what year you are currently on.Press the back button to go back!
+        </p>
+      <div class="map-container">
         <svg id="map"></svg>
       </div>
     </div>
@@ -34,7 +47,7 @@
       var energydata, features;
 
       // hardcoded variables to replace with UI 
-      var year = 1971, index = 25;
+      var year = 1971, index = 0;
 
       // from other file, untouched 
       var map = d3.select("#map"),
@@ -52,16 +65,16 @@
           path,
           carto;
      
-      // on click, this function is called
-      window.onclick = function() {
+      // on svg click, this function is called
+      $('div.map-container').click(function() {
         // toggle year data
-        if (year == 2005)
+        if (year == 2007)
           year = 1971;
         else
-          year = 2005;
+          year = 2007;
 
         update();
-      };
+      });
 
       // read in the world conutry outline data
       d3.json("data/world_data.json", function(topo) {
@@ -121,9 +134,7 @@
       function update() {
   
         // just some helpful printouts to show that the event is being handled
-        console.log("updating")
-        console.log("year is: ")
-        console.log(year);
+        console.log("year is " + year)
 
         // compute value by getting the right valid data 
         var value = function(d) {
