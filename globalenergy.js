@@ -12,10 +12,13 @@ var height = width / 2;
 
 var tableType = "B"; 
 // variables needed in various functions
-var topo, projection, path, svg, g, index, year;
+var topo, projection, path, svg, g, index, year, currentCountry;
 
 // dropdown element box
 var etype = document.getElementById("combobox");
+
+// initialization flag
+var firstTime = true;
 
 // constant
 var minConstant = -999999
@@ -42,9 +45,8 @@ $(function() {
       var newValue = ui.value;
       var presentYear = ui.value;
 
-        // console.log(countriesSelection)
 
-        countriesSelection
+      countriesSelection
         .style("fill", function(d, i) {
         index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
@@ -80,12 +82,8 @@ $(function() {
           return "#CACACA";
         }
       });
-
-}
-
-});
-
-
+    }
+  });
 });
 
 // tooltip 
@@ -264,8 +262,13 @@ function draw(topo) {
         index = etype.options[etype.selectedIndex].value;
         var countryName = d.properties.name;
 
-        // initial value of slider
-        year = 1971;
+        if (firstTime == true) {
+          // initial value of slider
+          year = 1971;
+          CreateGraph(0, "China");
+          currentCountry = "China";
+          firstTime = false;
+        }
 
         max = 0, median = 0, min = minConstant;
 
@@ -298,7 +301,7 @@ function draw(topo) {
 
   // handle mousemove events
   country
-  .on("mousemove", function(d,i) {
+    .on("mousemove", function(d,i) {
 
     var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
 
@@ -317,12 +320,13 @@ function draw(topo) {
 
 
   })
-  .on("mouseout",  function(d,i) {
-    tooltip.classed("hidden", true);
-  })
-  .on("click", function(d,i) {
-    CreateGraph(d.properties.name, d.properties.name);
-  });
+    .on("mouseout",  function(d,i) {
+      tooltip.classed("hidden", true);
+      })
+    .on("click", function(d,i) {
+      CreateGraph(index, d.properties.name);
+      currentCountry = d.properties.name;
+    });
 
   // Here to add more labels/overlays like station points
 }
@@ -432,7 +436,11 @@ function throttle() {
     var selection = this.value; //grab the value selected
     console.log(selection);
 
+<<<<<<< HEAD
         var newValue = $('#slider').slider('value');
+=======
+        var newValue = $('#slider').slider('value');;
+>>>>>>> c10bb21d97bef0eb2b4fc345a30c885aa9260f9b
 
         // console.log(countriesSelection)
 
@@ -445,7 +453,7 @@ function throttle() {
         var countryName = d.properties.name;
 
         // get the value from the slider
-        var year = $('#slider').slider('value');
+        year = $('#slider').slider('value');
 
         drawTable("I");
         max = 0, median = 0, min = minConstant;
@@ -473,6 +481,8 @@ function throttle() {
           return "#CACACA";
         }
       });
+
+      CreateGraph(index, currentCountry);
     });
 
 //tutorial 

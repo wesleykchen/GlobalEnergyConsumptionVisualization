@@ -3,14 +3,9 @@
 
 <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<!--<link rel=" stylesheet" type="text/css" href="jquery.joyride-2.0.css"> -->
 <link rel="stylesheet" href="css/style.css" type="text/css" />
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
-<!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
 <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 
 
@@ -39,9 +34,10 @@
     margin:10px 10%;
     border:2px solid #000;
     border-radius: 5px;
-    height:400px;
+    height:550px;
     overflow:hidden;
     background: #BFEFFF;
+    margin-top: 30px;
   }
 
   #year {
@@ -108,18 +104,13 @@
   }
 
   #chart1 svg {
-    height: 240px;
+    height: 330px;
     margin: 10px;
     width:700px;
     min-width: 100px;
     min-height: 200px;
     display:block;
     float:left;
-/*
-  Minimum height and width is a good idea to prevent negative SVG dimensions...
-  For example width should be =< margin.left + margin.right + 1,
-  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-  */
 }
 
 table {
@@ -162,7 +153,6 @@ table .highlight {
 }
 
 #combobox {
-  position: center;
   display: inline-block;
   margin-left: 10px;
 }
@@ -172,17 +162,14 @@ table .highlight {
 }
 
 div label {
-  margin-left: 10px;
+  margin-left: 100px;
 } 
-
-
-
 
 </style>
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-step="1" data-intro="Welcome! The visualizations presented on this page are meant to provide you with a better understanding of how different sources of energy are varied in their use around the world. You have the options to scan across three decades of data and see multiple types of energy sources, along with multiple formats of energy quantification. Enjoy!">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -196,17 +183,22 @@ div label {
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Visualization</a></li>
-            <li><a href="onemoreattempt.html">Cartogram</a></li>
+            <li data-step="7" data-intro="An experimental feature we developed was the cartogram -- a swelled area map. More notes are provided on the link."><a href="WorldCartogram.html">Cartogram</a></li>
             <li><a href="http://www.youtube.com/watch?v=kh29_SERH0Y" rel="prettyPhoto">Video</a></li>
             <li><a href="https://docs.google.com/document/d/1gAzYUXH1U2Lw-_H1bsgUgXXriCoesPGveyRnC_wqfug/edit?usp=sharing">Process Book</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
+<br> </br>
 
-<p></a>.</p>
 
-<div class="dropdown">
+
+
+
+
+<div id="container" data-step = '2' data-intro="This is our main world overview where you can scroll-zoom and pan on an country (not oceans) as you like. The countries are colored by their value for the given energy source and year. In this case, it is energy production in kilotons of oil equivalent. The color scale goes from dark green (minimum) to white (median) to red (max), with gray representing no data.Mousing over each country will give the country name and data value if available. Clicking the country will update the bar-line graph below."></div>
+<div class="dropdown" data-step = '4' data-intro="This is a dropdown menu to select different energy measurements, from coal, to energy, to nuclear. Updating teh dropdown will refresh both the world map and the bar graph below. Note some selections will have negative values such as any GDP adjusted ones. Black shades represent negative values for those respective values." data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
 <option value = 0 >Energy production (kt of oil equivalent)</option>
@@ -237,10 +229,10 @@ div label {
 <option value = 25>Energy use (kg of oil equivalent per capita)</option>
 </select>
 </div>
-
-
-<div id="container">
-  <div class="bootstro"></div>
+<input type="text" id="year" style="border:0; color:#000000; font-weight:bold;">
+<div id="slider" data-step = '5' data-intro="This controls the year between 1971 and 2007. he world map will adjust dynamically." data-position='top'></div>
+<div id="chart1" class='with-3d-shadow with-transitions' data-step="3" data-intro="This is a bar-line graph where the blue bars are the values of our energy source over our time span. The orange line is a fixed comparison to the United States. Note the right line graph axis is not zeroed to best show variation over time, but the bar graph is. The purpose of this is to see the relative difference for country compared to a difference in the event for the United States--to help detect possible global trends." data-position="top">
+  <svg class="bootstro" data-bootstro-content="Test" > </svg>
 </div>
 <input type="text" id="year" style="border:0; color:#f6931f; font-weight:bold;">
 <div id="slider"></div>
@@ -249,6 +241,9 @@ div label {
 </div>
 <div id="rankTable"></div>
 
+<div id="table" data-step="6" data-intro="The table highlights the top ten nations for each respective energy source."></div>
+
+
 <script src="libs/d3.v3.min.js"></script>
 <script src="libs/topojson.v1.min.js"></script>
 <script src="libs/nv.d3.js"></script>
@@ -256,31 +251,27 @@ div label {
 
 <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
-<script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+<script src="libs/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 <script src="cartogram.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="libs/intro.js"></script>
+<link href="css/introjs.css" rel="stylesheet">
 <script type = "text/javascript">
     // declare global energydata for between files
     var energydata;
   </script>
+    <script type = "text/javascript" src="globalenergy.js"></script>
   <script type = "text/javascript" src="energygraph.js"></script>
-  <script type = "text/javascript" src="globalenergy.js"></script>
+
 
   <script>
     $(document).ready(function() {
       $('table.tableSorter').tableSort();}
+</script>
 
-      $('#cssmenu').prepend('<div id="menu-button">Menu</div>');
-      $('#cssmenu #menu-button').on('click', function(){
-        var menu = $(this).next('ul');
-        if (menu.hasClass('open')) {
-          menu.removeClass('open');
-        }
-        else {
-          menu.addClass('open');
-        }
-      });
+<script>
+introJs().start();
 </script>
 
 <script type="text/javascript" charset="utf-8">
