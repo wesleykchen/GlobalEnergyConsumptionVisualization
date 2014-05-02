@@ -177,7 +177,7 @@ div label {
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-step="1" data-intro="Welcome! The visualizations presented on this page are meant to provide you with a better understanding of how different sources of energy are varied in their use around the world. You have the options to scan across three decades of data and see multiple types of energy sources, along with multiple formats of energy quantification. Enjoy!">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -205,8 +205,8 @@ div label {
 
 
 
-<div id="container" data-step = '1' data-intro="World Map Displaying Various sources of Energy"></div>
-<div class="dropdown" data-step = '2' data-intro="Select one of the energy sources with respect either to total amount used per anum or with respect to GDP" data-position="top">
+<div id="container" data-step = '2' data-intro="World Map Displaying Various sources of Energy"></div>
+<div class="dropdown" data-step = '3' data-intro="Select one of the energy sources with respect either to total amount used per anum or with respect to GDP" data-position="top">
   <label>Energy Source: </label>
   <select id="combobox">
 <option value = 0 >Energy production (kt of oil equivalent)</option>
@@ -238,9 +238,9 @@ div label {
 </select>
 </div>
 <input type="text" id="year" style="border:0; color:#000000; font-weight:bold;">
-<div id="slider" data-step = '3' data-intro="Select a year to view the energy parameters for the respective year" data-position='top'></div>
-<div id="chart1" class='with-3d-shadow with-transitions'>
-  <svg class="bootstro" data-bootstro-content="Test"> </svg>
+<div id="slider" data-step = '4' data-intro="Select a year to view the energy parameters for the respective year" data-position='top'></div>
+<div id="chart1" class='with-3d-shadow with-transitions' data-step="5" data-intro="The bar graph varies with the country that is selected and it can be compared to the relative levels of the United States, as depicted by the line graph." data-position="top">
+  <svg class="bootstro" data-bootstro-content="Test" > </svg>
 </div>
 <div id="table"></div>
 
